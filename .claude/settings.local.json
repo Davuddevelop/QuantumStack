@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:21st.dev)",
+      "WebFetch(domain:stripe.com)",
+      "WebFetch(domain:raycast.com)"
+    ]
+  }
+}

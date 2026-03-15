@@ -1,0 +1,14 @@
+# Environment Variables
+.env
+
+# Firebase credentials (NEVER commit)
+firebase-key.json
+*-firebase-adminsdk-*.json
+
+# Dependencies
+node_modules/
+.npm
+
+# System
+.DS_Store
+Thumbs.db

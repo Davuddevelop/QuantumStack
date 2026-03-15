@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — CampusSync</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <nav class="navbar" style="padding-left: 240px;">
+        <div class="container flex-between" style="height: 100%; max-width: none;">
+            <div class="flex-center" style="gap: 1rem;">
+                <select id="clubSwitcher">
+                    <option value="gdg-baku">GDG Baku · 847 members</option>
+                    <option value="new" style="color: var(--blue); font-weight: 600;">+ Add New Community</option>
+                </select>
+            </div>
+            <div class="flex-center" style="gap: 1.5rem;">
+                <button class="btn btn-ghost" style="font-size: 1.2rem; padding: 0.5rem;">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                </button>
+                <div style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent) 0%, var(--copper) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; cursor: pointer;">DM</div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app-container">
+        <aside class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+            <a href="index.html" class="nav-brand">Campus<span>Sync</span></a>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-link active">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    Dashboard
+                </a>
+                <a href="members.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Members
+                </a>
+                <a href="events.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Events
+                </a>
+                <a href="health.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    Community Health
+                </a>
+                <a href="planner.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    Event Planner
+                </a>
+                <a href="connect.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="12" r="3"/><path d="M3 21v-2a4 4 0 0 1 4-4h4"/></svg>
+                    Member Connect
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1 2-2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Settings
+                </a>
+            </nav>
+            <div class="data-widget" aria-live="polite">
+                Google Developer Group · Baku, Azerbaijan
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="dashboard-grid">
+                <!-- LEFT: Activity Feed -->
+                <div class="animate-in">
+                    <h3 style="margin-bottom: 1.5rem; font-family: 'Clash Display', sans-serif;">Club Activity Feed</h3>
+                    <div id="activityFeed" class="grid" style="gap: 0.75rem;">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- CENTER: Health & Stats -->
+                <div class="animate-in delay-1">
+                    <div class="card" style="text-align: center; margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--text-muted); margin-bottom: 1.25rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">Health Score</h4>
+                        <div class="health-gauge">
+                            <svg viewBox="0 0 36 36">
+                                <path class="gauge-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path id="healthGauge" class="gauge-fill" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" stroke-dasharray="78, 100" />
+                            </svg>
+                            <div class="health-value">81%</div>
+                        </div>
+                    </div>
+
+                    <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem;">
+                        <div class="stat-card">
+                            <div class="stat-label">Members</div>
+                            <div class="stat-value">847</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Active</div>
+                            <div class="stat-value sage">234</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Events (2025)</div>
+                            <div class="stat-value">6</div>
+                        </div>
+                        <div class="stat-card" style="grid-column: span 2;">
+                            <div class="stat-label">Total Attendees (2025)</div>
+                            <div class="stat-value teal">1,598</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="margin-bottom: 1rem; font-size: 0.9rem;">At-Risk Members</h4>
+                        <div id="riskList" class="grid" style="gap: 0.75rem;">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Events & Actions -->
+                <div class="animate-in delay-2">
+                    <h3 style="margin-bottom: 1.5rem; font-family: 'Clash Display', sans-serif; font-size: 1rem;">Upcoming Events</h3>
+                    <div id="upcomingEvents" class="grid" style="gap: 0.75rem; margin-bottom: 2rem;">
+                        <!-- Injected by JS -->
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem; font-family: 'Clash Display', sans-serif; font-size: 1rem;">Quick Actions</h3>
+                    <div class="grid" style="gap: 0.75rem;">
+                        <a href="planner.html" class="quick-action accent">
+                            <span class="quick-action-icon">
+                                <svg width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            </span>
+                            <div>
+                                <div class="quick-action-title">Plan Event</div>
+                                <div class="quick-action-sub">AI Planner</div>
+                            </div>
+                        </a>
+                        <a href="health.html" class="quick-action teal">
+                            <span class="quick-action-icon">
+                                <svg width="20" height="20" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                            </span>
+                            <div>
+                                <div class="quick-action-title">Analyze Health</div>
+                                <div class="quick-action-sub">AI Diagnosis</div>
+                            </div>
+                        </a>
+                        <a href="connect.html" class="quick-action sage">
+                            <span class="quick-action-icon">
+                                <svg width="20" height="20" fill="none" stroke="var(--sage)" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="12" r="3"/><path d="M3 21v-2a4 4 0 0 1 4-4h4"/></svg>
+                            </span>
+                            <div>
+                                <div class="quick-action-title">Connect Members</div>
+                                <div class="quick-action-sub">Matchmaking</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230D0D12'/><rect x='20' y='20' width='25' height='25' rx='4' fill='%23E85D4C'/><rect x='55' y='20' width='25' height='25' rx='4' fill='%234A9D97'/><rect x='20' y='55' width='25' height='25' rx='4' fill='%23C77E5B'/><rect x='55' y='55' width='25' height='25' rx='4' fill='%237BA38C'/></svg>">
+    <script src="./data.js"></script>
+    <script src="./app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Listen for appReady to ensure state is loaded from Firebase
+            window.addEventListener('appReady', () => {
+                const comm = window.state.currentCommunity;
+                const firebaseCommunityId = localStorage.getItem('firebase_community_id');
+                
+                if (firebaseCommunityId && comm && comm.id === firebaseCommunityId) {
+                    // Update switcher and select it
+                    const switcher = document.getElementById('clubSwitcher');
+                    const newOption = document.createElement('option');
+                    newOption.value = comm.id;
+                    newOption.text = `${comm.name} · ${comm.size} members`;
+                    newOption.selected = true;
+                    switcher.insertBefore(newOption, switcher.lastElementChild); // Insert before "Add New"
+                    
+                    // Update sidebar widget
+                    const widget = document.querySelector('.data-widget');
+                    if (widget) widget.textContent = `${comm.type} · ${comm.location}`;
+                    
+                    // Show welcome banner
+                    const banner = document.createElement('div');
+                    banner.style.cssText = 'background: rgba(59, 130, 246, 0.15); border: 1px solid var(--blue); padding: 1rem 1.5rem; border-radius: 16px; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; animation: fadeSlideUp 0.4s var(--ease-out);';
+                    banner.innerHTML = `
+                        <div>
+                            <div style="font-weight: 700; color: var(--blue); margin-bottom: 0.25rem;">Welcome to CampusSync, ${comm.name}!</div>
+                            <div style="font-size: 0.9rem; color: var(--text-secondary);">Your AI co-manager is ready. <a href="health.html" style="color: var(--blue); font-weight: 600; text-decoration: none;">Run your first health analysis to get started. →</a></div>
+                        </div>
+                        <button class="btn btn-ghost" style="padding: 0.5rem;" onclick="this.parentElement.remove()">✕</button>
+                    `;
+                    const dashboardGrid = document.querySelector('.dashboard-grid');
+                    if (dashboardGrid) {
+                        dashboardGrid.parentNode.insertBefore(banner, dashboardGrid);
+                    }
+
+                    // Override hardcoded stats for the new community
+                    const statValues = document.querySelectorAll('.stat-value');
+                    if (statValues.length >= 4) {
+                        statValues[0].textContent = comm.size.includes('+') || comm.size.includes('-') ? comm.size.split('-')[0].replace('+','') : comm.size; 
+                        statValues[1].textContent = window.state.members ? window.state.members.length : '0'; // Active
+                        statValues[2].textContent = '0'; // Events
+                        statValues[3].textContent = '0'; // Attendees
+                    }
+                }
+                
+                renderDashboard();
+                initAnimations();
+            });
+
+            // Initial render if app is already ready
+            if (window.state && window.state.currentCommunity) {
+                renderDashboard();
+                initAnimations();
+            }
+        });
+
+        // Count-up animation using requestAnimationFrame
+        function animateCountUp(element, target, duration = 1200, suffix = '') {
+            const start = 0;
+            const startTime = performance.now();
+            const easing = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easedProgress = easing(progress);
+                const current = Math.round(start + (target - start) * easedProgress);
+
+                element.textContent = current.toLocaleString() + suffix;
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        // Gauge animation
+        function animateGauge(element, targetPercent, duration = 1500) {
+            const maxDash = 100;
+            const targetDash = targetPercent;
+            const startTime = performance.now();
+            const easing = (t) => 1 - Math.pow(1 - t, 3);
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easedProgress = easing(progress);
+                const currentDash = targetDash * easedProgress;
+
+                element.setAttribute('stroke-dasharray', `${currentDash}, ${maxDash}`);
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        function initAnimations() {
+            // Animate stat values
+            const statValues = document.querySelectorAll('.stat-value');
+            statValues.forEach(el => {
+                const text = el.textContent.trim();
+                const numMatch = text.match(/[\d,]+/);
+                if (numMatch) {
+                    const num = parseInt(numMatch[0].replace(/,/g, ''));
+                    const suffix = text.replace(numMatch[0], '');
+                    el.textContent = '0' + suffix;
+                    setTimeout(() => animateCountUp(el, num, 1200, suffix), 300);
+                }
+            });
+
+            // Animate health gauge
+            const gauge = document.getElementById('healthGauge');
+            if (gauge) {
+                gauge.setAttribute('stroke-dasharray', '0, 100');
+                setTimeout(() => animateGauge(gauge, 78, 1500), 400);
+            }
+
+            // Animate health value text
+            const healthValue = document.querySelector('.health-value');
+            if (healthValue) {
+                const targetPercent = 81;
+                healthValue.textContent = '0%';
+                setTimeout(() => animateCountUp(healthValue, targetPercent, 1500, '%'), 400);
+            }
+        }
+
+        function renderDashboard() {
+            const feed = document.getElementById('activityFeed');
+            const risk = document.getElementById('riskList');
+            const events = document.getElementById('upcomingEvents');
+
+            // Activity Feed
+            feed.innerHTML = window.state.insights.map(item => `
+                <div class="feed-item" style="border-left: 3px solid ${getColor(item.type)};">
+                    <div class="feed-icon ${getIconClass(item.type)}">${ICONS[item.icon] || ''}</div>
+                    <div class="feed-content">
+                        <div class="feed-text">${item.text}</div>
+                        <div class="feed-time">${item.time}</div>
+                    </div>
+                    <button class="btn btn-outline" style="font-size: 0.7rem; padding: 0.3rem 0.6rem;">${item.action}</button>
+                </div>
+            `).join('');
+
+            // Risk List - Hardcoded for demo explicitly as requested
+            risk.innerHTML = `
+                <div class="flex-between" style="font-size: 0.85rem;">
+                    <div class="flex" style="gap: 0.75rem; align-items: center;">
+                        <div class="member-avatar accent" style="width: 28px; height: 28px; font-size: 0.7rem;">Z</div>
+                        <span>Zahra Latif</span>
+                    </div>
+                    <span style="color: var(--accent); font-size: 0.8rem; font-weight: 600;">18d inactive</span>
+                </div>
+                <div class="flex-between" style="font-size: 0.85rem;">
+                    <div class="flex" style="gap: 0.75rem; align-items: center;">
+                        <div class="member-avatar copper" style="width: 28px; height: 28px; font-size: 0.7rem;">V</div>
+                        <span>Valeh Ismayilov</span>
+                    </div>
+                    <span style="color: var(--copper); font-size: 0.8rem; font-weight: 600;">14d inactive</span>
+                </div>
+            `;
+
+            // Events
+            events.innerHTML = window.state.events.slice(0, 3).map(e => `
+                <div class="card" style="padding: 1rem;">
+                    <div style="font-weight: 600; font-size: 0.85rem; margin-bottom: 0.35rem;">${e.name}</div>
+                    <div class="flex-between">
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">${e.date}</span>
+                        <span class="badge badge-${e.status}">${e.status}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getColor(type) {
+            switch(type) {
+                case 'warning': return 'var(--accent)';
+                case 'connection': return 'var(--sage)';
+                case 'positive': return 'var(--teal)';
+                case 'suggestion': return 'var(--copper)';
+                case 'event': return 'var(--gold)';
+                default: return 'var(--border)';
+            }
+        }
+
+        function getIconClass(type) {
+            switch(type) {
+                case 'warning': return 'warning';
+                case 'connection': return 'success';
+                case 'positive': return 'info';
+                case 'suggestion': return 'info';
+                case 'event': return 'event';
+                default: return '';
+            }
+        }
+    </script>
+</body>
+</html>

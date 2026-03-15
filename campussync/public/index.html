@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusSync — AI-powered community management for university clubs</title>
+    <meta name="description" content="The AI co-manager that keeps your university club healthy. Monitor engagement, plan events, and connect members automatically.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230D0D12'/><rect x='20' y='20' width='25' height='25' rx='4' fill='%23E85D4C'/><rect x='55' y='20' width='25' height='25' rx='4' fill='%234A9D97'/><rect x='20' y='55' width='25' height='25' rx='4' fill='%23C77E5B'/><rect x='55' y='55' width='25' height='25' rx='4' fill='%237BA38C'/></svg>">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        /* Landing Page Specific Overrides - Premium Style */
+        .landing-hero {
+            min-height: calc(100vh - 72px);
+            display: flex;
+            align-items: center;
+            padding: 4rem 0 6rem;
+            position: relative;
+        }
+
+        .landing-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 600px;
+            background: radial-gradient(ellipse at center, rgba(232, 93, 76, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-eyebrow .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--sage);
+            border-radius: 50%;
+        }
+
+        .hero-title {
+            font-size: clamp(2.75rem, 6vw, 4.5rem);
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .hero-title .highlight {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--copper) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            max-width: 580px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 4rem;
+        }
+
+        .hero-actions .btn-primary {
+            padding: 14px 28px;
+            font-size: 15px;
+        }
+
+        .hero-actions .btn-secondary-outline {
+            padding: 14px 28px;
+            font-size: 15px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .hero-actions .btn-secondary-outline:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: var(--text-muted);
+            color: var(--text);
+        }
+
+        /* Product Preview */
+        .product-preview {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .preview-window {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+                0 40px 80px -20px rgba(0, 0, 0, 0.5);
+        }
+
+        .preview-titlebar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .preview-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--border);
+        }
+
+        .preview-dot.red { background: #ff5f57; }
+        .preview-dot.yellow { background: #ffbd2e; }
+        .preview-dot.green { background: #28ca42; }
+
+        .preview-content {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 200px 1fr 240px;
+            gap: 1.5rem;
+            min-height: 380px;
+        }
+
+        .preview-sidebar {
+            border-right: 1px solid var(--border-subtle);
+            padding-right: 1.5rem;
+        }
+
+        .preview-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .preview-nav-item.active {
+            background: rgba(232, 93, 76, 0.1);
+            color: var(--accent);
+        }
+
+        .preview-main {
+            padding: 0 1rem;
+        }
+
+        .preview-main h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .preview-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-stat {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .preview-stat-value {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--teal);
+        }
+
+        .preview-stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 4px;
+        }
+
+        .preview-panel {
+            border-left: 1px solid var(--border-subtle);
+            padding-left: 1.5rem;
+        }
+
+        .preview-insight {
+            background: rgba(232, 93, 76, 0.08);
+            border-left: 2px solid var(--accent);
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 12px;
+        }
+
+        .preview-insight-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .preview-insight-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Metrics Bar */
+        .metrics-bar {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        .metric-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 8rem 0;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border-subtle);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .feature-item {
+            background: var(--ink);
+            padding: 2.5rem;
+            transition: background 0.2s;
+        }
+
+        .feature-item:hover {
+            background: var(--ink-light);
+        }
+
+        .feature-icon-wrap {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-item h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .feature-item p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* How It Works */
+        .how-section {
+            padding: 8rem 0;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .step-item {
+            position: relative;
+            padding: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .step-item h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .step-item p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Social Proof */
+        .social-proof {
+            padding: 6rem 0;
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+        }
+
+        .proof-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .proof-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            opacity: 0.5;
+        }
+
+        .proof-logo {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 0;
+            text-align: center;
+            background: linear-gradient(180deg, transparent 0%, rgba(232, 93, 76, 0.03) 100%);
+        }
+
+        .cta-title {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .cta-desc {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        .landing-footer {
+            padding: 4rem 0 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand {
+            max-width: 280px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-top: 1rem;
+        }
+
+        .footer-col h4 {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-col a {
+            display: block;
+            font-size: 14px;
+            color: var(--text-muted);
+            padding: 6px 0;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: var(--text);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .footer-hackathon {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(74, 157, 151, 0.1);
+            border: 1px solid rgba(74, 157, 151, 0.2);
+            border-radius: 100px;
+            font-size: 13px;
+            color: var(--teal);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .fade-in.delay-1 { animation-delay: 0.1s; }
+        .fade-in.delay-2 { animation-delay: 0.2s; }
+        .fade-in.delay-3 { animation-delay: 0.3s; }
+        .fade-in.delay-4 { animation-delay: 0.4s; }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .preview-content {
+                grid-template-columns: 1fr;
+            }
+            .preview-sidebar, .preview-panel {
+                display: none;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .metrics-bar {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="Main Navigation">
+        <div class="container flex-between" style="height: 100%;">
+            <a href="index.html" class="nav-brand">Campus<span>Sync</span></a>
+            <div class="flex" style="gap: 8px;">
+                <a href="dashboard.html" class="btn btn-ghost">Sign In</a>
+                <a href="onboarding.html" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="landing-hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-eyebrow fade-in">
+                        <span class="dot"></span>
+                        Built at Build with AI Hackathon 2026
+                    </div>
+
+                    <h1 class="hero-title fade-in delay-1">
+                        The AI co-manager<br>for <span class="highlight">university clubs</span>
+                    </h1>
+
+                    <p class="hero-subtitle fade-in delay-2">
+                        Monitor member engagement, plan events automatically, and keep your community healthy with AI-powered insights.
+                    </p>
+
+                    <div class="hero-actions fade-in delay-3">
+                        <a href="onboarding.html" class="btn btn-primary" aria-label="Start your free community onboarding">Start for free</a>
+                        <a href="dashboard.html" class="btn btn-secondary-outline" aria-label="View the interactive demo">View demo</a>
+                    </div>
+                </div>
+
+                <!-- Product Preview -->
+                <div class="product-preview fade-in delay-4">
+                    <div class="preview-window">
+                        <div class="preview-titlebar">
+                            <span class="preview-dot red"></span>
+                            <span class="preview-dot yellow"></span>
+                            <span class="preview-dot green"></span>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-sidebar">
+                                <div class="preview-nav-item active">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                                    Dashboard
+                                </div>
+                                <div class="preview-nav-item">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                                    Members
+                                </div>
+                                <div class="preview-nav-item">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                                    Events
+                                </div>
+                                <div class="preview-nav-item">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                                    Health
+                                </div>
+                            </div>
+                            <div class="preview-main">
+                                <h3>GDG Baku Overview</h3>
+                                <div class="preview-stats">
+                                    <div class="preview-stat">
+                                        <div class="preview-stat-value">847</div>
+                                        <div class="preview-stat-label">Members</div>
+                                    </div>
+                                    <div class="preview-stat">
+                                        <div class="preview-stat-value" style="color: var(--sage);">81%</div>
+                                        <div class="preview-stat-label">Health Score</div>
+                                    </div>
+                                    <div class="preview-stat">
+                                        <div class="preview-stat-value" style="color: var(--gold);">12</div>
+                                        <div class="preview-stat-label">Events YTD</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="preview-panel">
+                                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 12px;">AI Insights</div>
+                                <div class="preview-insight">
+                                    <div class="preview-insight-title">Engagement Alert</div>
+                                    <div class="preview-insight-text">3 core members showing decreased activity. Recommended: personal outreach.</div>
+                                </div>
+                                <div class="preview-insight" style="background: rgba(74, 157, 151, 0.08); border-color: var(--teal);">
+                                    <div class="preview-insight-title" style="color: var(--teal);">Trending Up</div>
+                                    <div class="preview-insight-text">Event RSVPs up 34% this month. Keep momentum going.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metrics -->
+                <div class="metrics-bar">
+                    <div class="metric">
+                        <div class="metric-value">847</div>
+                        <div class="metric-label">Members managed</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">1,598</div>
+                        <div class="metric-label">Event attendees</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">81%</div>
+                        <div class="metric-label">Avg health score</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">12</div>
+                        <div class="metric-label">Events planned</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">Features</div>
+                    <h2 class="section-title">Everything you need to run a thriving community</h2>
+                    <p class="section-desc">Powerful tools that work together to help you understand, engage, and grow your club membership.</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon-wrap">
+                            <svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                        </div>
+                        <h3>Community Health Score</h3>
+                        <p>Real-time engagement metrics that predict member churn before it happens.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon-wrap">
+                            <svg width="24" height="24" fill="none" stroke="var(--teal)" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <h3>AI Event Planner</h3>
+                        <p>Turn rough ideas into complete event plans with timelines and task assignments.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon-wrap">
+                            <svg width="24" height="24" fill="none" stroke="var(--copper)" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="12" r="3"/><path d="M3 21v-2a4 4 0 0 1 4-4h4"/></svg>
+                        </div>
+                        <h3>Smart Matching</h3>
+                        <p>Connect members with complementary skills and interests automatically.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon-wrap">
+                            <svg width="24" height="24" fill="none" stroke="var(--gold)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <h3>Member Insights</h3>
+                        <p>Understand engagement patterns and identify at-risk members early.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon-wrap">
+                            <svg width="24" height="24" fill="none" stroke="var(--sage)" stroke-width="1.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        </div>
+                        <h3>AI Announcements</h3>
+                        <p>Generate messages that match your club's voice and get higher engagement.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon-wrap">
+                            <svg width="24" height="24" fill="none" stroke="var(--text-secondary)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+                        </div>
+                        <h3>Analytics Dashboard</h3>
+                        <p>Deep insights into what makes your community tick and how to improve.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="how-section">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">How it works</div>
+                    <h2 class="section-title">Get started in minutes, not hours</h2>
+                    <p class="section-desc">No complex setup. Just import your members and let AI do the heavy lifting.</p>
+                </div>
+
+                <div class="steps-grid">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <h4>Add your community</h4>
+                        <p>Import members from CSV or add them manually. Connect your existing tools if you want.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <h4>AI analyzes health</h4>
+                        <p>Get an instant health score and identify engagement patterns across your membership.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <h4>Act on insights</h4>
+                        <p>Follow AI recommendations to retain members, plan events, and grow your community.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Proof -->
+        <section class="social-proof">
+            <div class="container">
+                <div class="proof-label">Built for communities like</div>
+                <div class="proof-logos">
+                    <span class="proof-logo">GDG Baku</span>
+                    <span class="proof-logo">AI & Robotics Club</span>
+                    <span class="proof-logo">DevSociety</span>
+                    <span class="proof-logo">StartupAZ</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-title">Ready to build a healthier community?</h2>
+                <p class="cta-desc">Join clubs that are using AI to understand and engage their members better.</p>
+                <a href="onboarding.html" class="btn btn-primary" style="padding: 14px 32px;">Get started for free</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="landing-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-brand">Campus<span>Sync</span></a>
+                    <p>The AI-powered platform that helps university clubs monitor engagement, plan events, and build stronger communities.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="health.html">Health Analysis</a>
+                    <a href="planner.html">Event Planner</a>
+                    <a href="connect.html">Member Connect</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="#">Documentation</a>
+                    <a href="#">API Reference</a>
+                    <a href="#">Community</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="#">About</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 CampusSync. All rights reserved.</span>
+                <div class="footer-hackathon">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    Built at Build with AI Hackathon, Baku 2026
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./data.js"></script>
+    <script src="./app.js"></script>
+</body>
+</html>

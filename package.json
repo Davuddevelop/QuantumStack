@@ -1,0 +1,25 @@
+{
+  "name": "campussync",
+  "version": "1.0.0",
+  "description": "Premium AI-powered platform for university clubs and developer communities.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "ai",
+    "community",
+    "campus",
+    "firebase",
+    "openai"
+  ],
+  "author": "Davud",
+  "license": "MIT",
+  "dependencies": {
+    "firebase-admin": "^11.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Event Planner — CampusSync</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230D0D12'/><rect x='20' y='20' width='25' height='25' rx='4' fill='%23E85D4C'/><rect x='55' y='20' width='25' height='25' rx='4' fill='%234A9D97'/><rect x='20' y='55' width='25' height='25' rx='4' fill='%23C77E5B'/><rect x='55' y='55' width='25' height='25' rx='4' fill='%237BA38C'/></svg>">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        /* Tab content fade transitions */
+        #planTab, #timelineTab, #runTab {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #planTab.active, #timelineTab.active, #runTab.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" style="padding-left: 240px;">
+        <div class="container flex-between" style="height: 100%; max-width: none;">
+            <div class="flex-center" style="gap: 1rem;">
+                <select id="clubSwitcher">
+                    <option value="ai-robotics">AI & Robotics Club</option>
+                </select>
+            </div>
+            <div class="flex-center" style="gap: 1.5rem;">
+                <button class="btn btn-ghost" style="font-size: 1.2rem; padding: 0.5rem;">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                </button>
+                <div style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent) 0%, var(--copper) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; cursor: pointer;">DM</div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app-container">
+        <aside class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+            <a href="index.html" class="nav-brand">Campus<span>Sync</span></a>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    Dashboard
+                </a>
+                <a href="members.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Members
+                </a>
+                <a href="events.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Events
+                </a>
+                <a href="health.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    Community Health
+                </a>
+                <a href="planner.html" class="nav-link active">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    Event Planner
+                </a>
+                <a href="connect.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="12" r="3"/><path d="M3 21v-2a4 4 0 0 1 4-4h4"/></svg>
+                    Member Connect
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="animate-in" style="text-align: center; max-width: 800px; margin: 0 auto 4rem auto;">
+                <h1 style="margin-bottom: 1rem;">AI Event Planner</h1>
+                <p style="color: var(--text-muted); margin-bottom: 2.5rem;">Describe your idea. Get a complete plan.</p>
+
+                <div class="card" style="text-align: left;">
+                    <textarea id="plannerInput" rows="6" placeholder="e.g. Coding workshop for 30 students next Saturday at ADA University, budget 200 AZN..."></textarea>
+                    <div class="flex-between" style="margin-top: 1rem;">
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">Powered by GPT-4o intelligence</span>
+                        <button id="plannerBtn" class="btn btn-primary">Generate Event Plan</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Section (Hidden by default) -->
+            <div id="plannerOutput" style="display: none; max-width: 1000px; margin: 0 auto;">
+                <div class="card card-accent" style="margin-bottom: 2rem;">
+                    <h2 id="eventHeadline">NVIDIA AI Workshop 2026</h2>
+                    <p style="color: var(--text-muted);">AI-generated strategy for success</p>
+                </div>
+
+                <div class="grid" style="grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                    <div class="stat-card">
+                        <div class="stat-label">Date</div>
+                        <div style="font-weight: 600;">March 28, 2026</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Venue</div>
+                        <div style="font-weight: 600;">ADA University</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Capacity</div>
+                        <div style="font-weight: 600;">35 Students</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Budget</div>
+                        <div style="font-weight: 600;">200 AZN</div>
+                    </div>
+                </div>
+
+                <div class="card" style="padding: 0; min-height: 400px;">
+                    <div class="flex" style="border-bottom: 1px solid var(--border-subtle);">
+                        <button class="tab-btn active" data-tab="plan">Full Plan</button>
+                        <button class="tab-btn" data-tab="timeline">Timeline & Checklist</button>
+                        <button class="tab-btn" data-tab="run">Run of Show</button>
+                    </div>
+                    <div id="tabContent" style="padding: 2rem;">
+                        <div id="planTab">
+                            <h3 style="margin-bottom: 1rem; font-family: 'Clash Display', sans-serif;">Executive Summary</h3>
+                            <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">A high-intensity coding workshop focused on integrating GPT-4o APIs into student projects. The goal is to provide hands-on experience and foster innovation within ADA University.</p>
+                            <h4 style="margin-bottom: 0.5rem;">Key Objectives</h4>
+                            <ul style="padding-left: 1.5rem; color: var(--text-muted);">
+                                <li>Introduce API authentication best practices</li>
+                                <li>Build a simple "Hello AI" application</li>
+                                <li>Network with top-performing dev students</li>
+                            </ul>
+                        </div>
+                        <div id="timelineTab" style="display: none;">
+                            <h3 style="margin-bottom: 1rem; font-family: 'Clash Display', sans-serif;">Preparation Timeline</h3>
+                            <div class="grid" style="gap: 1rem;">
+                                <div class="flex" style="gap: 1rem; align-items: center;">
+                                    <input type="checkbox" checked>
+                                    <span>Secure venue booking at ADA Lobby</span>
+                                </div>
+                                <div class="flex" style="gap: 1rem; align-items: center;">
+                                    <input type="checkbox">
+                                    <span>Purchase refreshments (Pizza/Drinks)</span>
+                                </div>
+                                <div class="flex" style="gap: 1rem; align-items: center;">
+                                    <input type="checkbox">
+                                    <span>Release early-bird registrations</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="runTab" style="display: none;">
+                            <h3 style="margin-bottom: 1rem; font-family: 'Clash Display', sans-serif;">Event Schedule</h3>
+                            <table>
+                                <tr>
+                                    <td style="font-weight: 700; width: 100px;">10:00 AM</td>
+                                    <td style="color: var(--text-muted);">Introduction & Keynote</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: 700;">11:30 AM</td>
+                                    <td style="color: var(--text-muted);">Hands-on Coding Session</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: 700;">01:00 PM</td>
+                                    <td style="color: var(--text-muted);">Demo Presentations & Lunch</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem 2rem; border-top: 1px solid var(--border-subtle); background: rgba(74, 157, 151, 0.02); text-align: right;">
+                        <button class="btn btn-primary">Save to Events</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="./data.js"></script>
+    <script src="./app.js"></script>
+    <script>
+        const plannerBtn = document.getElementById('plannerBtn');
+        const plannerInput = document.getElementById('plannerInput');
+        const plannerOutput = document.getElementById('plannerOutput');
+
+        plannerBtn.addEventListener('click', async () => {
+            const description = plannerInput.value.trim();
+
+            if (description.length < 20) {
+                alert("Please describe your event idea in more detail (min 20 chars).");
+                return;
+            }
+
+            plannerBtn.innerText = "Generating Event Plan...";
+            plannerBtn.disabled = true;
+            plannerOutput.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/ai', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        feature: 'planner',
+                        communityId: localStorage.getItem('firebase_community_id'),
+                        data: {
+                            description,
+                            clubName: window.state.currentCommunity.name
+                        }
+                    })
+                });
+
+                if (!res.ok) throw new Error('API Error');
+
+                const data = await res.json();
+                renderPlannerResults(data);
+            } catch(err) {
+                console.error("Planner AI Failed, using fallback:", err);
+                renderPlannerFallback();
+            } finally {
+                plannerBtn.innerText = "Generate Event Plan";
+                plannerBtn.disabled = false;
+            }
+        });
+
+        function renderPlannerResults(data) {
+            document.getElementById('eventHeadline').innerHTML = data.title;
+            document.getElementById('plannerOutput').querySelector('p').innerHTML = data.headline;
+
+            document.getElementById('planTab').innerHTML = `
+                <h3 style="margin-bottom: 1rem; font-family: 'Clash Display', sans-serif;">Executive Summary</h3>
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">${data.description}</p>
+                <div style="margin-bottom: 1.5rem;">
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">Target Audience: </span>
+                    <strong>${data.targetAudience}</strong>
+                </div>
+                <h4 style="margin-bottom: 0.5rem;">Key Objectives</h4>
+                <ul style="padding-left: 1.5rem; color: var(--text-muted);">
+                    ${data.goals.map(g => `<li>${g}</li>`).join('')}
+                </ul>
+            `;
+
+            document.getElementById('timelineTab').innerHTML = `
+                <h3 style="margin-bottom: 1rem; font-family: 'Clash Display', sans-serif;">Preparation Timeline</h3>
+                <div class="grid" style="gap: 1rem; margin-bottom: 2rem;">
+                    ${data.timeline.map(t => `
+                        <div class="flex" style="gap: 1rem; align-items: center;">
+                            <span class="badge" style="background: var(--surface-raised); min-width: 100px; text-align: center;">${t.when}</span>
+                            <span>${t.task}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <h3 style="margin-bottom: 1rem; font-family: 'Clash Display', sans-serif;">Checklist</h3>
+                <div class="grid" style="gap: 0.5rem;">
+                    ${data.checklist.map(c => `
+                        <div class="flex" style="gap: 1rem; align-items: center;">
+                            <input type="checkbox"> <span>${c}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            document.getElementById('runTab').innerHTML = `
+                <h3 style="margin-bottom: 1rem; font-family: 'Clash Display', sans-serif;">Event Schedule</h3>
+                <table>
+                    ${data.runOfShow.map(r => `
+                        <tr>
+                            <td style="font-weight: 700; width: 100px;">${r.time}</td>
+                            <td>${r.activity}</td>
+                            <td style="color: var(--text-muted); font-size: 0.85rem;">[${r.owner}] ${r.notes}</td>
+                        </tr>
+                    `).join('')}
+                </table>
+            `;
+
+            plannerOutput.style.display = 'block';
+            plannerOutput.scrollIntoView({ behavior: 'smooth' });
+
+            // Reset tabs
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('[data-tab="plan"]').classList.add('active');
+            document.getElementById('planTab').style.display = 'block';
+            document.getElementById('timelineTab').style.display = 'none';
+            document.getElementById('runTab').style.display = 'none';
+        }
+
+        function renderPlannerFallback() {
+            renderPlannerResults({
+                title: "Tech Industry Mixer",
+                headline: "Connecting students with local startup leaders",
+                date: "Next Friday",
+                venueType: "University Lobby",
+                capacity: 50,
+                budget: "150 AZN",
+                description: "A casual networking event designed to introduce members to tech professionals in Baku. Designed to foster mentorships and internship opportunities.",
+                goals: ["Facilitate 10+ intro conversations", "Collect emails for newsletter", "Boost general club morale"],
+                targetAudience: "Junior and Senior students seeking internships",
+                timeline: [
+                    {when: "2 weeks before", task: "Book lobby and confirm 3 guest speakers"},
+                    {when: "1 week before", task: "Send RSVP forms to members"},
+                    {when: "Day of", task: "Order pizzas and setup tables"}
+                ],
+                checklist: ["Nametags", "Pizza", "Speakers Confirmed", "Microphone required"],
+                runOfShow: [
+                    {time: "6:00 PM", activity: "Doors open & mingling", owner: "Events Team", notes: "Music playing"},
+                    {time: "6:30 PM", activity: "Guest Speaker Intros", owner: "President", notes: "Keep to 2mins each"},
+                    {time: "7:00 PM", activity: "Open Networking", owner: "All", notes: "Distribute food"}
+                ]
+            });
+        }
+
+        // Tab Switching with fade transitions
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const tab = btn.dataset.tab;
+                const tabs = ['planTab', 'timelineTab', 'runTab'];
+
+                // Remove active from all tabs first
+                tabs.forEach(t => {
+                    const el = document.getElementById(t);
+                    el.classList.remove('active');
+                });
+
+                // Hide all tabs
+                tabs.forEach(t => {
+                    const el = document.getElementById(t);
+                    el.style.display = 'none';
+                });
+
+                // Show and animate the selected tab
+                const activeTab = document.getElementById(tab + 'Tab');
+                activeTab.style.display = 'block';
+                // Force reflow
+                activeTab.offsetHeight;
+                activeTab.classList.add('active');
+            });
+        });
+
+        // Initialize first tab as active
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('planTab').classList.add('active');
+
+            window.addEventListener('appReady', () => {
+                const comm = window.state.currentCommunity;
+                const firebaseCommunityId = localStorage.getItem('firebase_community_id');
+                
+                if (firebaseCommunityId && comm && comm.id === firebaseCommunityId) {
+                    const switcher = document.getElementById('clubSwitcher');
+                    if (![...switcher.options].some(opt => opt.value === comm.id)) {
+                        const newOption = document.createElement('option');
+                        newOption.value = comm.id;
+                        newOption.text = `${comm.name} · ${comm.size} members`;
+                        newOption.selected = true;
+                        switcher.add(newOption, 0);
+                    } else {
+                        switcher.value = comm.id;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
