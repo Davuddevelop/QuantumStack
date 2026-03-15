@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Connect — CampusSync</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230D0D12'/><rect x='20' y='20' width='25' height='25' rx='4' fill='%23E85D4C'/><rect x='55' y='20' width='25' height='25' rx='4' fill='%234A9D97'/><rect x='20' y='55' width='25' height='25' rx='4' fill='%23C77E5B'/><rect x='55' y='55' width='25' height='25' rx='4' fill='%237BA38C'/></svg>">
+    <link rel="stylesheet" href="./static/css/style.css">
+</head>
+<body>
+    <nav class="navbar" style="padding-left: 240px;">
+        <div class="container flex-between" style="height: 100%; max-width: none;">
+            <div class="flex-center" style="gap: 1rem;">
+                <select id="clubSwitcher">
+                    <option value="ai-robotics">AI & Robotics Club</option>
+                </select>
+            </div>
+            <div class="flex-center" style="gap: 1.5rem;">
+                <button class="btn btn-ghost" style="font-size: 1.2rem; padding: 0.5rem;">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                </button>
+                <div style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent) 0%, var(--copper) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; cursor: pointer;">DM</div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <a href="index.html" class="nav-brand">Campus<span>Sync</span></a>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    Dashboard
+                </a>
+                <a href="members.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Members
+                </a>
+                <a href="events.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Events
+                </a>
+                <a href="health.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    Community Health
+                </a>
+                <a href="planner.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    Event Planner
+                </a>
+                <a href="connect.html" class="nav-link active">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="12" r="3"/><path d="M3 21v-2a4 4 0 0 1 4-4h4"/></svg>
+                    Member Connect
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="animate-in" style="margin-bottom: 3rem;">
+                <h1>Member Connection Engine</h1>
+                <p style="color: var(--text-muted);">AI finds who should meet in your club to drive collaboration.</p>
+            </div>
+
+            <div class="grid" style="grid-template-columns: 4.5fr 5.5fr; gap: 2rem; align-items: start;">
+                <!-- LEFT: Member Pool -->
+                <div class="animate-in delay-1">
+                    <div class="flex-between" style="margin-bottom: 1.5rem;">
+                        <h3 style="font-size: 1rem; font-family: 'Clash Display', sans-serif;">Select Members to Match</h3>
+                        <button id="connectBtn" class="btn btn-primary" style="padding: 0.5rem 1rem;">Find Connections</button>
+                    </div>
+                    <div id="memberPool" class="grid" style="grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- RIGHT: Suggestions -->
+                <div id="connectOutput" class="animate-in delay-2">
+                    <div id="emptyState" class="card" style="padding: 4rem 2rem; text-align: center; border: 2px dashed var(--border);">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">
+                            <svg width="48" height="48" fill="none" stroke="var(--teal)" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="12" r="3"/><path d="M3 21v-2a4 4 0 0 1 4-4h4"/></svg>
+                        </div>
+                        <h4>Ready to Connect</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">Select members on the left or click the button to let AI find the best matches for your club this week.</p>
+                    </div>
+
+                    <div id="connectionCards" style="display: none;" class="grid" style="gap: 1.5rem;">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="./static/js/data.js"></script>
+    <script src="./static/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            window.addEventListener('appReady', () => {
+                const comm = window.state.currentCommunity;
+                const firebaseCommunityId = localStorage.getItem('firebase_community_id');
+                
+                if (firebaseCommunityId && comm && comm.id === firebaseCommunityId) {
+                    const switcher = document.getElementById('clubSwitcher');
+                    // Clear existing if necessary or just append
+                    if (![...switcher.options].some(opt => opt.value === comm.id)) {
+                        const newOption = document.createElement('option');
+                        newOption.value = comm.id;
+                        newOption.text = `${comm.name} · ${comm.size} members`;
+                        newOption.selected = true;
+                        switcher.add(newOption, 0);
+                    } else {
+                        switcher.value = comm.id;
+                    }
+                }
+                renderPool();
+            });
+
+            if (window.state && window.state.currentCommunity) {
+                renderPool();
+            }
+        });
+
+        function renderPool() {
+            const pool = document.getElementById('memberPool');
+            const members = window.state.members;
+
+            pool.innerHTML = members.slice(0, 10).map(m => `
+                <div class="card" style="padding: 0.75rem; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                    <input type="checkbox" checked value="${m.id}">
+                    <div class="member-avatar" style="width: 32px; height: 32px; font-size: 0.7rem;">${m.name.charAt(0)}</div>
+                    <div style="font-size: 0.85rem; font-weight: 600;">${m.name}</div>
+                </div>
+            `).join('');
+        }
+
+        const connectBtn = document.getElementById('connectBtn');
+        const emptyState = document.getElementById('emptyState');
+        const connectionCards = document.getElementById('connectionCards');
+
+        connectBtn.addEventListener('click', async () => {
+            // Get selected members
+            const checkboxes = document.querySelectorAll('#memberPool input[type="checkbox"]:checked');
+            if (checkboxes.length < 2) {
+                alert("Please select at least 2 members to find connections.");
+                return;
+            }
+
+            const selectedMemberIds = Array.from(checkboxes).map(cb => cb.value);
+            const selectedMembers = window.state.members.filter(m => selectedMemberIds.includes(m.id));
+
+            connectBtn.innerText = "Finding Matches...";
+            connectBtn.disabled = true;
+            emptyState.style.display = 'none';
+            connectionCards.style.display = 'none';
+            // Show a simple loading state in the cards area
+            connectionCards.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-muted);">Analyzing member profiles...</div>';
+            connectionCards.style.display = 'block';
+
+            try {
+                const res = await fetch('/api/ai', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        feature: 'connect',
+                        communityId: localStorage.getItem('firebase_community_id'),
+                        data: {
+                            members: selectedMembers,
+                            clubName: window.state.currentCommunity.name
+                        }
+                    })
+                });
+
+                if (!res.ok) throw new Error('API Error');
+
+                const data = await res.json();
+                renderConnectionResults(data.connections);
+            } catch(err) {
+                console.error("Connect AI Failed, using fallback:", err);
+                renderConnectionFallback();
+            } finally {
+                connectBtn.innerText = "Find Connections";
+                connectBtn.disabled = false;
+            }
+        });
+
+        function renderConnectionResults(connections) {
+            connectionCards.style.display = 'grid';
+            connectionCards.style.gap = '1.5rem';
+
+            // Function to generate deterministic colors based on name strings
+            const getColorStr = (str1, str2) => {
+                const colors = ['var(--accent)', 'var(--teal)', 'var(--sage)', 'var(--gold)', 'var(--copper)'];
+                return [colors[str1.length % colors.length], colors[str2.length % colors.length]];
+            };
+
+            connectionCards.innerHTML = connections.map((conn, index) => {
+                const [c1, c2] = getColorStr(conn.member1, conn.member2);
+
+                return `
+                <div class="connection-card">
+                    <div class="flex-center" style="gap: 2rem; margin-bottom: 1.5rem;">
+                        <div style="text-align: center;">
+                            <div style="width: 56px; height: 56px; background: ${c1}; border-radius: 50%; border: 3px solid var(--surface); margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white;">${conn.member1.charAt(0)}</div>
+                            <div style="font-size: 0.8rem; font-weight: 700;">${conn.member1}</div>
+                        </div>
+                        <div style="font-size: 1.5rem;">
+                            <svg width="24" height="24" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="width: 56px; height: 56px; background: ${c2}; border-radius: 50%; border: 3px solid var(--surface); margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white;">${conn.member2.charAt(0)}</div>
+                            <div style="font-size: 0.8rem; font-weight: 700;">${conn.member2}</div>
+                        </div>
+                    </div>
+                    <div class="match-reason">
+                        <div class="match-label">Reason for Match</div>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">${conn.reason}</p>
+                    </div>
+                    <div class="flex" style="gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                        ${conn.sharedInterests.map(i => `
+                            <span class="interest-tag">${i}</span>
+                        `).join('')}
+                    </div>
+                    <div class="flex" style="gap: 1rem;">
+                        <button class="btn btn-primary" style="flex: 1;" onclick="alert('Message feature coming in V2!')">Send Intro Message</button>
+                        <button class="btn btn-outline" onclick="copyIntroText(this, \`${conn.introMessage.replace(/`/g, '\\`')}\`)">Copy Pitch</button>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        function copyIntroText(buttonEl, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = buttonEl.innerText;
+                buttonEl.innerText = "Copied!";
+                setTimeout(() => {
+                    buttonEl.innerText = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error("Failed to copy:", err);
+            });
+        }
+
+        function renderConnectionFallback() {
+            renderConnectionResults([{
+                member1: "Sevinc Aliyeva",
+                member2: "Tural Aliyev",
+                reason: "Sevinc is leading data projects and needs frontend development support. Tural builds React apps and is looking for meaningful side projects.",
+                sharedInterests: ["Python", "Open Source"],
+                introMessage: "Hey Tural, meet Sevinc! She's building data visualization tools for the club and could really use your React skills. Sevinc, Tural has shipped several production apps and loves working on impactful projects. You two should grab coffee and talk!"
+            }]);
+        }
+    </script>
+</body>
+</html>

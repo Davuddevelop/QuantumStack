@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — CampusSync</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230D0D12'/><rect x='20' y='20' width='25' height='25' rx='4' fill='%23E85D4C'/><rect x='55' y='20' width='25' height='25' rx='4' fill='%234A9D97'/><rect x='20' y='55' width='25' height='25' rx='4' fill='%23C77E5B'/><rect x='55' y='55' width='25' height='25' rx='4' fill='%237BA38C'/></svg>">
+    <link rel="stylesheet" href="./static/css/style.css">
+    <link rel="stylesheet" href="./static/css/dashboard.css">
+</head>
+<body>
+    <nav class="navbar" style="padding-left: 240px;">
+        <div class="container flex-between" style="height: 100%; max-width: none;">
+            <div class="flex-center" style="gap: 1rem;">
+                <select id="clubSwitcher">
+                    <option value="gdg-baku">GDG Baku · 847 members</option>
+                    <option value="new" style="color: var(--blue); font-weight: 600;">+ Add New Community</option>
+                </select>
+            </div>
+            <div class="flex-center" style="gap: 1.5rem;">
+                <button class="btn btn-ghost" style="font-size: 1.2rem; padding: 0.5rem;">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                </button>
+                <div class="user-avatar">DM</div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app-container">
+        <aside class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+            <a href="index.html" class="nav-brand">Campus<span>Sync</span></a>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-link active">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    Dashboard
+                </a>
+                <a href="members.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Members
+                </a>
+                <a href="events.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Events
+                </a>
+                <a href="health.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    Community Health
+                </a>
+                <a href="planner.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    Event Planner
+                </a>
+                <a href="connect.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="12" r="3"/><path d="M3 21v-2a4 4 0 0 1 4-4h4"/></svg>
+                    Member Connect
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Settings
+                </a>
+            </nav>
+            <div class="data-widget" aria-live="polite">
+                Google Developer Group · Baku, Azerbaijan
+            </div>
+            <!-- LinkedIn Connected Card (populated by JS if URL exists) -->
+            <div id="linkedinCard" style="display: none; margin-top: 1rem; padding: 0.85rem; background: linear-gradient(135deg, rgba(10, 102, 194, 0.08) 0%, rgba(10, 102, 194, 0.03) 100%); border: 1px solid rgba(10, 102, 194, 0.2); border-radius: 12px;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    <span style="font-size: 0.8rem; font-weight: 600; color: #0A66C2;">LinkedIn Connected</span>
+                </div>
+                <div id="linkedinUrl" style="font-size: 0.7rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0.5rem;"></div>
+                <div style="display: flex; align-items: center; gap: 0.35rem;">
+                    <span style="width: 6px; height: 6px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);"></span>
+                    <span style="font-size: 0.7rem; color: #22c55e; font-weight: 500;">Synced</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <!-- AI Command Bar -->
+            <div class="ai-command-bar animate-in">
+                <div class="ai-command-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <input type="text" class="ai-command-input" placeholder="Ask AI anything... (e.g., 'Why is engagement dropping?')" />
+                <div class="ai-command-hints">
+                    <span class="command-hint">analyze health</span>
+                    <span class="command-hint">suggest event</span>
+                    <span class="command-hint">find connections</span>
+                </div>
+                <div class="ai-command-badge">
+                    <span class="ai-pulse"></span>
+                    AI Ready
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-v2">
+                <!-- Left Column: Insights & Activity -->
+                <div class="dashboard-left">
+                    <!-- AI Insights Section -->
+                    <section class="insights-section animate-in delay-1">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <span class="title-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <path d="M12 16v-4"/>
+                                        <path d="M12 8h.01"/>
+                                    </svg>
+                                </span>
+                                AI Insights
+                            </h2>
+                            <span class="insight-count" id="insightCount">5 new</span>
+                        </div>
+
+                        <!-- Insight Cards Grid -->
+                        <div class="insights-grid" id="insightsGrid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </section>
+
+                    <!-- Engagement Trends -->
+                    <section class="trends-section animate-in delay-2">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <span class="title-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2">
+                                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                                        <polyline points="17 6 23 6 23 12"/>
+                                    </svg>
+                                </span>
+                                Engagement Trends
+                            </h2>
+                            <div class="trend-period">
+                                <button class="period-btn active">7D</button>
+                                <button class="period-btn">30D</button>
+                                <button class="period-btn">90D</button>
+                            </div>
+                        </div>
+                        <div class="trends-chart">
+                            <div class="chart-container" id="engagementChart">
+                                <!-- SVG Chart -->
+                                <svg viewBox="0 0 400 120" class="sparkline-chart">
+                                    <defs>
+                                        <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" style="stop-color:var(--teal);stop-opacity:0.3" />
+                                            <stop offset="100%" style="stop-color:var(--teal);stop-opacity:0" />
+                                        </linearGradient>
+                                    </defs>
+                                    <path class="chart-area" d="M0,100 L0,60 C50,55 100,45 150,50 C200,55 250,35 300,40 C350,45 400,30 400,25 L400,100 Z" fill="url(#chartGradient)"/>
+                                    <path class="chart-line" d="M0,60 C50,55 100,45 150,50 C200,55 250,35 300,40 C350,45 400,30 400,25" fill="none" stroke="var(--teal)" stroke-width="2.5"/>
+                                    <circle class="chart-dot" cx="400" cy="25" r="4" fill="var(--teal)"/>
+                                </svg>
+                                <div class="chart-labels">
+                                    <span>Mon</span>
+                                    <span>Tue</span>
+                                    <span>Wed</span>
+                                    <span>Thu</span>
+                                    <span>Fri</span>
+                                    <span>Sat</span>
+                                    <span>Today</span>
+                                </div>
+                            </div>
+                            <div class="trend-stats">
+                                <div class="trend-stat">
+                                    <span class="trend-stat-value positive">+12%</span>
+                                    <span class="trend-stat-label">vs last week</span>
+                                </div>
+                                <div class="trend-stat">
+                                    <span class="trend-stat-value">234</span>
+                                    <span class="trend-stat-label">active today</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Recent Activity -->
+                    <section class="activity-section animate-in delay-3">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <span class="title-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--copper)" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <polyline points="12 6 12 12 16 14"/>
+                                    </svg>
+                                </span>
+                                Recent Activity
+                            </h2>
+                            <a href="members.html" class="view-all-link">View all</a>
+                        </div>
+                        <div class="activity-list" id="activityList">
+                            <!-- Populated by JS -->
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column: Health & AI Tools -->
+                <div class="dashboard-right">
+                    <!-- Health Score Card -->
+                    <div class="health-card animate-in delay-1">
+                        <div class="health-card-header">
+                            <span class="health-label">Community Health</span>
+                            <span class="health-badge good">Healthy</span>
+                        </div>
+                        <div class="health-score-ring">
+                            <svg viewBox="0 0 120 120" class="health-ring">
+                                <circle class="ring-bg" cx="60" cy="60" r="52" fill="none" stroke="var(--border)" stroke-width="8"/>
+                                <circle class="ring-progress" id="healthRing" cx="60" cy="60" r="52" fill="none" stroke="var(--teal)" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 327" transform="rotate(-90 60 60)"/>
+                            </svg>
+                            <div class="health-score-value">
+                                <span class="score-number" id="healthScore">0</span>
+                                <span class="score-suffix">%</span>
+                            </div>
+                        </div>
+                        <div class="health-breakdown">
+                            <div class="breakdown-item">
+                                <div class="breakdown-header">
+                                    <span class="breakdown-label">Engagement</span>
+                                    <span class="breakdown-value">85%</span>
+                                </div>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill teal" data-value="85"></div>
+                                </div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-header">
+                                    <span class="breakdown-label">Event Attendance</span>
+                                    <span class="breakdown-value">78%</span>
+                                </div>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill sage" data-value="78"></div>
+                                </div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-header">
+                                    <span class="breakdown-label">Member Activity</span>
+                                    <span class="breakdown-value">72%</span>
+                                </div>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill gold" data-value="72"></div>
+                                </div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-header">
+                                    <span class="breakdown-label">Retention</span>
+                                    <span class="breakdown-value">89%</span>
+                                </div>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill copper" data-value="89"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="health.html" class="health-cta">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                            Run Full Analysis
+                        </a>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="quick-stats animate-in delay-2">
+                        <div class="stat-item">
+                            <div class="stat-icon members">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number" data-target="847">0</span>
+                                <span class="stat-label">Members</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon active">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number" data-target="234">0</span>
+                                <span class="stat-label">Active</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon events">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                                    <line x1="16" y1="2" x2="16" y2="6"/>
+                                    <line x1="8" y1="2" x2="8" y2="6"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number" data-target="6">0</span>
+                                <span class="stat-label">Events</span>
+                            </div>
+                        </div>
+                        <div class="stat-item full-width">
+                            <div class="stat-icon attendees">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                    <path d="M2 17l10 5 10-5"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number" data-target="1598">0</span>
+                                <span class="stat-label">Total Attendees (2025)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Tools -->
+                    <div class="ai-tools animate-in delay-3">
+                        <h3 class="tools-title">
+                            <span class="ai-badge-mini">AI</span>
+                            Quick Tools
+                        </h3>
+                        <div class="tools-grid">
+                            <a href="planner.html" class="tool-card">
+                                <div class="tool-icon accent">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                    </svg>
+                                </div>
+                                <div class="tool-info">
+                                    <span class="tool-name">Event Planner</span>
+                                    <span class="tool-desc">AI-powered planning</span>
+                                </div>
+                                <svg class="tool-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                            <a href="health.html" class="tool-card">
+                                <div class="tool-icon teal">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                                    </svg>
+                                </div>
+                                <div class="tool-info">
+                                    <span class="tool-name">Health Analysis</span>
+                                    <span class="tool-desc">Deep diagnostics</span>
+                                </div>
+                                <svg class="tool-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                            <a href="connect.html" class="tool-card">
+                                <div class="tool-icon sage">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="9" cy="7" r="4"/>
+                                        <circle cx="17" cy="12" r="3"/>
+                                        <path d="M3 21v-2a4 4 0 0 1 4-4h4"/>
+                                    </svg>
+                                </div>
+                                <div class="tool-info">
+                                    <span class="tool-name">Member Connect</span>
+                                    <span class="tool-desc">Smart matchmaking</span>
+                                </div>
+                                <svg class="tool-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Event -->
+                    <div class="upcoming-event animate-in delay-4">
+                        <div class="event-badge">Next Event</div>
+                        <h4 class="event-title" id="nextEventTitle">Build with AI Hackathon</h4>
+                        <div class="event-meta">
+                            <span class="event-date">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                                    <line x1="16" y1="2" x2="16" y2="6"/>
+                                    <line x1="8" y1="2" x2="8" y2="6"/>
+                                </svg>
+                                Mar 15, 2026
+                            </span>
+                            <span class="event-attendees">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                </svg>
+                                190/200
+                            </span>
+                        </div>
+                        <div class="event-progress">
+                            <div class="event-progress-fill" style="width: 95%"></div>
+                        </div>
+                        <a href="events.html" class="event-link">View all events</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="./static/js/data.js"></script>
+    <script src="./static/js/app.js"></script>
+    <script>
+        // Dashboard V2 - Premium SaaS Implementation
+        document.addEventListener('DOMContentLoaded', () => {
+            window.addEventListener('appReady', () => {
+                const comm = window.state.currentCommunity;
+                const firebaseCommunityId = localStorage.getItem('firebase_community_id');
+
+                if (firebaseCommunityId && comm && comm.id === firebaseCommunityId) {
+                    const switcher = document.getElementById('clubSwitcher');
+                    const newOption = document.createElement('option');
+                    newOption.value = comm.id;
+                    newOption.text = `${comm.name} · ${comm.size} members`;
+                    newOption.selected = true;
+                    switcher.insertBefore(newOption, switcher.lastElementChild);
+
+                    const widget = document.querySelector('.data-widget');
+                    if (widget) widget.textContent = `${comm.type} · ${comm.location}`;
+                }
+
+                initDashboard();
+            });
+
+            if (window.state && window.state.currentCommunity) {
+                initDashboard();
+            }
+        });
+
+        function initDashboard() {
+            renderInsights();
+            renderActivity();
+            animateStats();
+            animateHealthScore();
+            animateBreakdownBars();
+            setupCommandBar();
+            showLinkedInCard();
+        }
+
+        // Show LinkedIn card if URL exists in localStorage
+        function showLinkedInCard() {
+            const linkedinUrl = localStorage.getItem('community_linkedin');
+            if (linkedinUrl) {
+                const card = document.getElementById('linkedinCard');
+                const urlEl = document.getElementById('linkedinUrl');
+                if (card && urlEl) {
+                    // Truncate URL for display
+                    let displayUrl = linkedinUrl.replace('https://', '').replace('http://', '');
+                    if (displayUrl.length > 30) {
+                        displayUrl = displayUrl.substring(0, 30) + '...';
+                    }
+                    urlEl.textContent = displayUrl;
+                    card.style.display = 'block';
+                }
+            }
+        }
+
+        // Insight type configurations
+        const INSIGHT_CONFIG = {
+            warning: {
+                icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+                class: 'warning',
+                label: 'Alert'
+            },
+            positive: {
+                icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
+                class: 'positive',
+                label: 'Opportunity'
+            },
+            suggestion: {
+                icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+                class: 'suggestion',
+                label: 'Suggestion'
+            },
+            connection: {
+                icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/></svg>`,
+                class: 'connection',
+                label: 'Connection'
+            }
+        };
+
+        function renderInsights() {
+            const grid = document.getElementById('insightsGrid');
+            const insights = window.state.insights;
+
+            grid.innerHTML = insights.map((insight, i) => {
+                const config = INSIGHT_CONFIG[insight.type] || INSIGHT_CONFIG.suggestion;
+                return `
+                    <div class="insight-card ${config.class}" style="animation-delay: ${i * 0.08}s">
+                        <div class="insight-header">
+                            <span class="insight-type-badge ${config.class}">${config.label}</span>
+                            <span class="insight-time">${insight.time}</span>
+                        </div>
+                        <div class="insight-body">
+                            <div class="insight-icon">${config.icon}</div>
+                            <p class="insight-text">${insight.text}</p>
+                        </div>
+                        <button class="insight-action">${insight.action}</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderActivity() {
+            const list = document.getElementById('activityList');
+            const messages = window.state.messages.slice(0, 5);
+
+            list.innerHTML = messages.map((msg, i) => `
+                <div class="activity-item" style="animation-delay: ${i * 0.06}s">
+                    <div class="activity-avatar">${msg.member.split(' ').map(n => n[0]).join('')}</div>
+                    <div class="activity-content">
+                        <span class="activity-name">${msg.member}</span>
+                        <p class="activity-text">${msg.text}</p>
+                    </div>
+                    <span class="activity-time">${msg.time}</span>
+                </div>
+            `).join('');
+        }
+
+        // Smooth count-up animation
+        function animateValue(element, target, duration = 1200) {
+            const start = 0;
+            const startTime = performance.now();
+            const ease = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = Math.round(start + (target - start) * ease(progress));
+                element.textContent = current.toLocaleString();
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        function animateStats() {
+            document.querySelectorAll('.stat-number').forEach((el, i) => {
+                const target = parseInt(el.dataset.target);
+                setTimeout(() => animateValue(el, target), 300 + i * 100);
+            });
+        }
+
+        function animateHealthScore() {
+            const ring = document.getElementById('healthRing');
+            const scoreEl = document.getElementById('healthScore');
+            const targetScore = 81;
+            const circumference = 2 * Math.PI * 52; // r=52
+
+            setTimeout(() => {
+                // Animate ring
+                const offset = circumference * (targetScore / 100);
+                ring.style.transition = 'stroke-dasharray 1.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                ring.setAttribute('stroke-dasharray', `${offset} ${circumference}`);
+
+                // Animate number
+                animateValue(scoreEl, targetScore, 1500);
+            }, 400);
+        }
+
+        function animateBreakdownBars() {
+            document.querySelectorAll('.breakdown-fill').forEach((bar, i) => {
+                const value = bar.dataset.value;
+                setTimeout(() => {
+                    bar.style.width = `${value}%`;
+                }, 600 + i * 150);
+            });
+        }
+
+        function setupCommandBar() {
+            const input = document.querySelector('.ai-command-input');
+            const hints = document.querySelectorAll('.command-hint');
+
+            hints.forEach(hint => {
+                hint.addEventListener('click', () => {
+                    input.value = hint.textContent;
+                    input.focus();
+                });
+            });
+
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && input.value.trim()) {
+                    // Navigate based on command
+                    const cmd = input.value.toLowerCase();
+                    if (cmd.includes('health') || cmd.includes('analyze')) {
+                        window.location.href = 'health.html';
+                    } else if (cmd.includes('event') || cmd.includes('plan')) {
+                        window.location.href = 'planner.html';
+                    } else if (cmd.includes('connect') || cmd.includes('match')) {
+                        window.location.href = 'connect.html';
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

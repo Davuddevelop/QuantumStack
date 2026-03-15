@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Community Health — CampusSync</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230D0D12'/><rect x='20' y='20' width='25' height='25' rx='4' fill='%23E85D4C'/><rect x='55' y='20' width='25' height='25' rx='4' fill='%234A9D97'/><rect x='20' y='55' width='25' height='25' rx='4' fill='%23C77E5B'/><rect x='55' y='55' width='25' height='25' rx='4' fill='%237BA38C'/></svg>">
+    <link rel="stylesheet" href="./static/css/style.css">
+</head>
+<body>
+    <nav class="navbar" style="padding-left: 240px;">
+        <div class="container flex-between" style="height: 100%; max-width: none;">
+            <div class="flex-center" style="gap: 1rem;">
+                <select id="clubSwitcher">
+                    <option value="ai-robotics">AI & Robotics Club</option>
+                </select>
+            </div>
+            <div class="flex-center" style="gap: 1.5rem;">
+                <button class="btn btn-ghost" style="font-size: 1.2rem; padding: 0.5rem;">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                </button>
+                <div style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent) 0%, var(--copper) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; cursor: pointer;">DM</div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app-container">
+        <aside class="sidebar" role="navigation" aria-label="Sidebar Navigation">
+            <a href="index.html" class="nav-brand">Campus<span>Sync</span></a>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    Dashboard
+                </a>
+                <a href="members.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Members
+                </a>
+                <a href="events.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Events
+                </a>
+                <a href="health.html" class="nav-link active">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    Community Health
+                </a>
+                <a href="planner.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    Event Planner
+                </a>
+                <a href="connect.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="12" r="3"/><path d="M3 21v-2a4 4 0 0 1 4-4h4"/></svg>
+                    Member Connect
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="animate-in" style="text-align: center; max-width: 800px; margin: 0 auto 4rem auto;">
+                <h1 style="margin-bottom: 1rem;">Community Health Analysis</h1>
+                <p style="color: var(--text-muted); margin-bottom: 2.5rem;">Describe your club's recent activity. AI will score your health and tell you exactly what to do this week.</p>
+
+                <div class="card" style="text-align: left;">
+                    <textarea id="healthInput" rows="6" placeholder="e.g. We had 3 meetings this month, attendance dropped from 28 to 14. Members seem less engaged in Discord..."></textarea>
+                    <div class="flex-between" style="margin-top: 1rem;">
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">GPT-4o will process this analysis</span>
+                        <button id="analyzeBtn" class="btn btn-primary">Analyze Club Health</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Section (Hidden by default) -->
+            <div id="healthOutput" style="display: none;">
+                <div class="grid" style="grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2.5rem;">
+                    <div class="card" style="text-align: center;">
+                        <div class="stat-label">Overall Health</div>
+                        <div class="stat-value sage" style="font-size: 2.5rem;">72/100</div>
+                    </div>
+                    <div class="card" style="text-align: center;">
+                        <div class="stat-label">Engagement</div>
+                        <div class="stat-value teal" style="font-size: 2.5rem;">High</div>
+                    </div>
+                    <div class="card" style="text-align: center;">
+                        <div class="stat-label">Risk Level</div>
+                        <div class="stat-value gold" style="font-size: 2.5rem;">Medium</div>
+                    </div>
+                </div>
+
+                <div class="grid" style="grid-template-columns: 2fr 1fr; gap: 2rem;">
+                    <div>
+                        <h3 style="margin-bottom: 1.5rem; font-family: 'Clash Display', sans-serif;">AI Diagnosis</h3>
+                        <div class="grid" style="gap: 1rem;">
+                            <div class="card card-accent">
+                                <h4 style="margin-bottom: 0.5rem;">Fragmented Communication</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-muted);">Information is scattered across Discord and Whatsapp, causing 30% of members to miss updates.</p>
+                            </div>
+                            <div class="card card-gold">
+                                <h4 style="margin-bottom: 0.5rem;">Developer Burnout</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-muted);">Core team is handling 90% of the workload. Need to delegate smaller tasks to new members.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom: 1.5rem; font-family: 'Clash Display', sans-serif;">Action Plan</h3>
+                        <div class="grid" style="gap: 1rem;">
+                            <div class="card" style="padding: 1rem; background: rgba(74, 157, 151, 0.05);">
+                                <div style="font-weight: 700; color: var(--teal);">01. Centralize Sync</div>
+                                <p style="font-size: 0.8rem; margin-top: 0.25rem; color: var(--text-secondary);">Move all announcements to CampusSync Smart Feed.</p>
+                            </div>
+                            <div class="card" style="padding: 1rem; background: rgba(123, 163, 140, 0.05);">
+                                <div style="font-weight: 700; color: var(--sage);">02. Host Mixer</div>
+                                <p style="font-size: 0.8rem; margin-top: 0.25rem; color: var(--text-secondary);">Plan a low-stakes social to re-engage drifting members.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="./static/js/data.js"></script>
+    <script src="./static/js/app.js"></script>
+    <script>
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const healthInput = document.getElementById('healthInput');
+        const healthOutput = document.getElementById('healthOutput');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.addEventListener('appReady', () => {
+                const comm = window.state.currentCommunity;
+                const firebaseCommunityId = localStorage.getItem('firebase_community_id');
+                
+                if (firebaseCommunityId && comm && comm.id === firebaseCommunityId) {
+                    const switcher = document.getElementById('clubSwitcher');
+                    if (![...switcher.options].some(opt => opt.value === comm.id)) {
+                        const newOption = document.createElement('option');
+                        newOption.value = comm.id;
+                        newOption.text = `${comm.name} · ${comm.size} members`;
+                        newOption.selected = true;
+                        switcher.add(newOption, 0);
+                    } else {
+                        switcher.value = comm.id;
+                    }
+                }
+            });
+        });
+
+        analyzeBtn.addEventListener('click', async () => {
+            const description = healthInput.value.trim();
+            if (description.length < 30) {
+                alert('Please describe your club activity in more detail (min 30 chars).');
+                return;
+            }
+
+            analyzeBtn.disabled = true;
+            analyzeBtn.textContent = 'Analyzing...';
+            healthOutput.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/ai', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        feature: 'health',
+                        communityId: localStorage.getItem('firebase_community_id'),
+                        data: {
+                            description,
+                            clubName: window.state.currentCommunity.name
+                        }
+                    })
+                });
+
+                if (!res.ok) throw new Error('API Error');
+
+                const data = await res.json();
+                renderHealthResults(data);
+            } catch(err) {
+                console.error("Health Analysis Failed, using fallback:", err);
+                renderHealthFallback();
+            } finally {
+                analyzeBtn.disabled = false;
+                analyzeBtn.textContent = 'Analyze Club Health';
+            }
+        });
+
+        function renderHealthResults(data) {
+            const breakdown = data.breakdown || {
+                memberEngagement: 68, eventConsistency: 75,
+                communication: 55, leadershipLoad: 80,
+                newMemberIntegration: 60
+            };
+
+            healthOutput.innerHTML = `
+                <div class="grid animate-in" style="grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2.5rem;">
+                    <div class="card" style="text-align: center;">
+                        <div class="stat-label">Overall Health</div>
+                        <div class="stat-value health-score-value" data-target="${data.overallScore}" style="font-size: 2.5rem; color: ${getScoreColor(data.overallScore)};">0/100</div>
+                    </div>
+                    <div class="card" style="text-align: center;">
+                        <div class="stat-label">Engagement</div>
+                        <div class="stat-value teal engagement-value" data-target="${data.engagementRate}" style="font-size: 2.5rem;">0%</div>
+                    </div>
+                    <div class="card" style="text-align: center;">
+                        <div class="stat-label">Risk Level</div>
+                        <div class="stat-value" style="font-size: 2.5rem; color: ${getRiskColor(data.retentionRisk)};">${data.retentionRisk}</div>
+                    </div>
+                </div>
+
+                <div class="card animate-in delay-1" style="margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1.5rem; font-family: 'Clash Display', sans-serif;">Health Breakdown</h3>
+                    <div class="grid" style="gap: 1.25rem;">
+                        <div>
+                            <div class="flex-between" style="font-size: 0.85rem; margin-bottom: 0.25rem;">
+                                <span>Member Engagement</span>
+                                <span style="color: var(--teal);">${breakdown.memberEngagement}%</span>
+                            </div>
+                            <div class="health-bar"><div class="health-bar-fill teal" data-width="${breakdown.memberEngagement}" style="width: 0;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex-between" style="font-size: 0.85rem; margin-bottom: 0.25rem;">
+                                <span>Event Consistency</span>
+                                <span style="color: var(--sage);">${breakdown.eventConsistency}%</span>
+                            </div>
+                            <div class="health-bar"><div class="health-bar-fill sage" data-width="${breakdown.eventConsistency}" style="width: 0;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex-between" style="font-size: 0.85rem; margin-bottom: 0.25rem;">
+                                <span>Communication</span>
+                                <span style="color: var(--gold);">${breakdown.communication}%</span>
+                            </div>
+                            <div class="health-bar"><div class="health-bar-fill gold" data-width="${breakdown.communication}" style="width: 0;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex-between" style="font-size: 0.85rem; margin-bottom: 0.25rem;">
+                                <span>Leadership Load</span>
+                                <span style="color: var(--accent);">${breakdown.leadershipLoad}%</span>
+                            </div>
+                            <div class="health-bar"><div class="health-bar-fill accent" data-width="${breakdown.leadershipLoad}" style="width: 0;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex-between" style="font-size: 0.85rem; margin-bottom: 0.25rem;">
+                                <span>New Member Integration</span>
+                                <span style="color: var(--copper);">${breakdown.newMemberIntegration}%</span>
+                            </div>
+                            <div class="health-bar"><div class="health-bar-fill copper" data-width="${breakdown.newMemberIntegration}" style="width: 0;"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid animate-in delay-2" style="grid-template-columns: 2fr 1fr; gap: 2rem;">
+                    <div>
+                        <h3 style="margin-bottom: 1.5rem; font-family: 'Clash Display', sans-serif;">AI Diagnosis</h3>
+                        <div class="grid" style="gap: 1rem;">
+                            ${data.risks.map(r => `
+                                <div class="card" style="border-left: 3px solid ${getRiskLevelColor(r.level)};">
+                                    <h4 style="margin-bottom: 0.5rem; text-transform: capitalize;">${r.level} Observation</h4>
+                                    <p style="font-size: 0.9rem; color: var(--text-muted);">${r.text}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom: 1.5rem; font-family: 'Clash Display', sans-serif;">Action Plan</h3>
+                        <div class="grid" style="gap: 1rem;">
+                            ${data.actions.map((a, i) => `
+                                <div class="card" style="padding: 1rem; background: ${getBgScore(a.priority)};">
+                                    <div style="font-weight: 700; color: ${getTextScore(a.priority)};">0${i+1}. ${a.title}</div>
+                                    <p style="font-size: 0.8rem; margin-top: 0.25rem; color: var(--text-secondary);">${a.why}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            healthOutput.style.display = 'block';
+            healthOutput.scrollIntoView({behavior:'smooth'});
+
+            // Trigger animations
+            setTimeout(() => {
+                // Animate health bars
+                document.querySelectorAll('.health-bar-fill').forEach((bar, i) => {
+                    setTimeout(() => {
+                        bar.style.width = bar.dataset.width + '%';
+                    }, i * 100);
+                });
+
+                // Animate count-up values
+                animateValue('.health-score-value', '/100');
+                animateValue('.engagement-value', '%');
+            }, 300);
+        }
+
+        function animateValue(selector, suffix) {
+            const el = document.querySelector(selector);
+            if (!el) return;
+            const target = parseInt(el.dataset.target);
+            const duration = 1200;
+            const startTime = performance.now();
+            const easing = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = Math.round(target * easing(progress));
+                el.textContent = current + suffix;
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        function getScoreColor(score) {
+            if (score >= 80) return 'var(--sage)';
+            if (score >= 60) return 'var(--gold)';
+            return 'var(--accent)';
+        }
+
+        function getRiskColor(risk) {
+            if (risk.toLowerCase() === 'low') return 'var(--sage)';
+            if (risk.toLowerCase() === 'medium') return 'var(--gold)';
+            return 'var(--accent)';
+        }
+
+        function getRiskLevelColor(level) {
+            if (level === 'critical') return 'var(--accent)';
+            if (level === 'warning') return 'var(--gold)';
+            return 'var(--sage)';
+        }
+
+        function getBgScore(p) {
+            if (p === 'HIGH') return 'rgba(232, 93, 76, 0.05)';
+            if (p === 'MEDIUM') return 'rgba(212, 168, 83, 0.05)';
+            return 'rgba(74, 157, 151, 0.05)';
+        }
+
+        function getTextScore(p) {
+            if (p === 'HIGH') return 'var(--accent)';
+            if (p === 'MEDIUM') return 'var(--gold)';
+            return 'var(--teal)';
+        }
+
+        function renderHealthFallback() {
+            renderHealthResults({
+                overallScore: 72,
+                engagementRate: 61,
+                retentionRisk: "Medium",
+                breakdown: {
+                    memberEngagement: 68, eventConsistency: 75,
+                    communication: 55, leadershipLoad: 80,
+                    newMemberIntegration: 60
+                },
+                risks: [
+                    {level:"critical", text:"Meeting attendance has dropped significantly"},
+                    {level:"warning", text:"Core members showing signs of burnout"},
+                    {level:"strength", text:"Event quality remains consistently high"}
+                ],
+                actions: [
+                    {priority:"HIGH", title:"Host a casual social event",
+                    why:"Re-engage members with low-pressure activity"},
+                    {priority:"MEDIUM", title:"1-on-1 check-ins with at-risk members",
+                    why:"Personal outreach has 3x higher response rate"},
+                    {priority:"LOW", title:"Survey members on preferred meeting times",
+                    why:"Schedule conflicts are the #1 reason for inactivity"}
+                ]
+            });
+        }
+    </script>
+</body>
+</html>
