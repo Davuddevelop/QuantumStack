@@ -903,7 +903,7 @@
         </section>
 
         <!-- Problem Section -->
-        <section class="problem-section">
+        <section id="problem" class="problem-section">
             <div class="section-container">
                 <div class="section-eyebrow reveal">The Problem</div>
                 <h2 class="section-title reveal reveal-delay-1">
@@ -941,7 +941,7 @@
         </section>
 
         <!-- Solution Section -->
-        <section class="solution-section">
+        <section id="solution" class="solution-section">
             <div class="section-container">
                 <div class="solution-tag reveal">
                     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
@@ -958,7 +958,7 @@
         </section>
 
         <!-- Feature Showcase -->
-        <section class="feature-showcase">
+        <section id="features" class="feature-showcase">
             <!-- Feature 1: Dashboard -->
             <div class="feature-block">
                 <div class="feature-content reveal">
@@ -982,6 +982,7 @@
                             Quick actions for common tasks
                         </li>
                     </ul>
+                    <a href="dashboard.html" class="btn btn-primary" style="margin-top: 1.5rem; display: inline-flex; width: fit-content;">Explore Dashboard →</a>
                 </div>
                 <div class="feature-screenshot reveal reveal-delay-2">
                     <div class="screenshot-header">
@@ -1035,6 +1036,7 @@
                             Actionable recommendations
                         </li>
                     </ul>
+                    <a href="health.html" class="btn btn-secondary" style="margin-top: 1.5rem; display: inline-flex; width: fit-content;">Analyze Health →</a>
                 </div>
                 <div class="feature-screenshot reveal reveal-delay-2">
                     <div class="screenshot-header">
@@ -1093,6 +1095,7 @@
                             Timeline and milestone tracking
                         </li>
                     </ul>
+                    <a href="planner.html" class="btn btn-ghost" style="margin-top: 1.5rem; display: inline-flex; width: fit-content; border: 1px solid var(--border);">Try Planner →</a>
                 </div>
                 <div class="feature-screenshot reveal reveal-delay-2">
                     <div class="screenshot-header">
@@ -1146,6 +1149,7 @@
                             Automated intro suggestions
                         </li>
                     </ul>
+                    <a href="connect.html" class="btn btn-primary" style="margin-top: 1.5rem; display: inline-flex; width: fit-content; background: var(--teal); border-color: var(--teal);">Find Your Tribe →</a>
                 </div>
                 <div class="feature-screenshot reveal reveal-delay-2">
                     <div class="screenshot-header">
@@ -1183,7 +1187,7 @@
         </section>
 
         <!-- Metrics Section -->
-        <section class="metrics-section">
+        <section id="metrics" class="metrics-section">
             <div class="metrics-grid">
                 <div class="metric-item reveal">
                     <div class="metric-value">847</div>
@@ -1242,15 +1246,15 @@
                 </div>
                 <div class="footer-col">
                     <h4>Resources</h4>
-                    <a href="#">Documentation</a>
-                    <a href="#">API Reference</a>
-                    <a href="#">Community</a>
+                    <a href="onboarding.html">Documentation</a>
+                    <a href="dashboard.html">Live Demo</a>
+                    <a href="#features">Features</a>
                 </div>
                 <div class="footer-col">
                     <h4>Company</h4>
-                    <a href="#">About</a>
-                    <a href="#">Blog</a>
-                    <a href="#">Contact</a>
+                    <a href="#solution">About</a>
+                    <a href="mailto:support@campussync.ai">Contact</a>
+                    <a href="https://linkedin.com">LinkedIn</a>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -1298,9 +1302,12 @@
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+                const href = this.getAttribute('href');
+                if (href === '#') return; // Do nothing for plain '#' links
+                
+                const target = document.querySelector(href);
                 if (target) {
+                    e.preventDefault();
                     target.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
