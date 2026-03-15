@@ -3,7 +3,12 @@
     "allow": [
       "WebFetch(domain:21st.dev)",
       "WebFetch(domain:stripe.com)",
-      "WebFetch(domain:raycast.com)"
+      "WebFetch(domain:raycast.com)",
+      "Bash(dir:*)",
+      "Bash(Get-ChildItem:*)",
+      "Bash(Select-Object FullName)",
+      "WebFetch(domain:cursor.com)",
+      "Bash(ls -la \"c:\\\\Users\\\\User\\\\Jedi\\\\QuantumStack\\\\frontend\\\\public\\\\static\\\\images\"\" 2>/dev/null || dir \"c:UsersUserJediQuantumStackfrontendpublicstaticimages\"\")"
     ]
   }
 }

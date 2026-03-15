@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const admin = require('firebase-admin');
+const fs = require('fs');
 const { callOpenAI, AI_CONFIG } = require('./ai-config');
 
 /**
@@ -16,32 +17,6 @@ const { callOpenAI, AI_CONFIG } = require('./ai-config');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// --- Firebase Initialization ---
-/**
- * Initializes Firebase Admin SDK with a service account key.
- * This ensures full administrative access to Firestore for community management.
- */
-const initFirebase = () => {
-    try {
-        const serviceAccount = require('./firebase-key.json');
-        admin.initializeApp({
-            credential: admin.credential.cert(serviceAccount)
-        });
-        log('success', 'Firebase Admin SDK initialized successfully');
-    } catch (e) {
-        log('error', `Firebase Initialization Failed: ${e.message}`);
-    }
-};
-
-initFirebase();
-const db = admin.firestore();
-
-// --- Middleware ---
-app.use(cors());
-app.use(express.json());
-// Serves reorganized frontend assets from the frontend/public directory
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
-
 /**
  * Structured logger for server events.
  * @param {string} type - info, success, error
@@ -52,6 +27,58 @@ const log = (type, message) => {
     const timestamp = new Date().toLocaleTimeString();
     console.log(`[${timestamp}] ${icons[type] || '🔹'} ${message}`);
 };
+
+// --- Firebase Initialization ---
+/**
+ * Initializes Firebase Admin SDK with credentials from:
+ * 1. Environment variables (for Vercel/production)
+ * 2. Local firebase-key.json file (for development)
+ */
+let db = null;
+const initFirebase = () => {
+    try {
+        let credential;
+
+        // Production: Use environment variables
+        if (process.env.FIREBASE_PROJECT_ID && process.env.FIREBASE_PRIVATE_KEY) {
+            credential = admin.credential.cert({
+                projectId: process.env.FIREBASE_PROJECT_ID,
+                clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+                privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
+            });
+            log('info', 'Using Firebase credentials from environment variables');
+        } else {
+            // Development: Use local JSON file
+            const localKeyPath = path.join(__dirname, 'firebase-key.json');
+            if (fs.existsSync(localKeyPath)) {
+                const serviceAccount = require(localKeyPath);
+                credential = admin.credential.cert(serviceAccount);
+                log('info', 'Using Firebase credentials from local file');
+            } else {
+                log('warn', 'Firebase local key file not found');
+            }
+        }
+
+        if (credential) {
+            admin.initializeApp({ credential });
+            db = admin.firestore();
+            log('success', 'Firebase Admin SDK initialized successfully');
+        } else {
+            log('warn', 'No Firebase credentials available - API endpoints will fail');
+        }
+    } catch (e) {
+        log('error', `Firebase Initialization Failed: ${e.message}`);
+        log('warn', 'Running without Firebase - API endpoints will fail');
+    }
+};
+
+initFirebase();
+
+// --- Middleware ---
+app.use(cors());
+app.use(express.json());
+// Serves reorganized frontend assets from the frontend/public directory
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
 
 // --- API Endpoints ---
 
@@ -85,41 +112,6 @@ app.get('/api/community', async (req, res) => {
     }
 });
 
-/**
- * POST /api/onboarding
- * Handles new community registration and batch member imports.
- * @body {Object} payload - Community details and initial member list.
- */
-app.post('/api/onboarding', async (req, res) => {
-    try {
-        const { name, type, location, size, description, members } = req.body;
-        
-        // Use Firestore transaction or batch for data integrity
-        const commRef = await db.collection('communities').add({
-            name, type, location, size, description,
-            createdAt: admin.firestore.FieldValue.serverTimestamp()
-        });
-
-        if (members && Array.isArray(members)) {
-            const batch = db.batch();
-            members.forEach(m => {
-                const mRef = db.collection('members').doc();
-                batch.set(mRef, { 
-                    ...m, 
-                    communityId: commRef.id, 
-                    addedAt: admin.firestore.FieldValue.serverTimestamp() 
-                });
-            });
-            await batch.commit();
-        }
-
-        log('success', `Archived project data for new community: ${name}`);
-        res.status(201).json({ success: true, communityId: commRef.id });
-    } catch (e) {
-        log('error', `API Error (/api/onboarding): ${e.message}`);
-        res.status(500).json({ error: 'Registration Failed' });
-    }
-});
 
 /**
  * POST /api/ai
@@ -159,6 +151,10 @@ app.post('/api/ai', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    log('info', `CampusSync Professional Entry Point: http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+    app.listen(PORT, () => {
+        log('info', `CampusSync Professional Entry Point: http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app;

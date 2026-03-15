@@ -147,6 +147,36 @@
     box-shadow: 0 0 8px var(--teal);
 }
 
+/* Command Bar Loading State */
+.ai-command-bar.loading {
+    pointer-events: none;
+}
+
+.ai-command-bar.loading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--teal), var(--accent), var(--teal));
+    background-size: 200% 100%;
+    animation: loadingBar 1s ease-in-out infinite;
+    width: 100%;
+}
+
+@keyframes loadingBar {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.ai-command-bar.loading .ai-command-badge {
+    animation: pulse 0.8s ease-in-out infinite;
+}
+
+.ai-command-bar.loading .ai-pulse {
+    animation: pulse 0.4s ease-in-out infinite;
+}
+
 /* ============================================
    DASHBOARD GRID V2
    ============================================ */
@@ -361,6 +391,24 @@
     background: rgba(255, 255, 255, 0.08);
     border-color: var(--border);
     color: var(--text);
+    transform: translateY(-1px);
+}
+
+.insight-action:active {
+    transform: scale(0.98);
+}
+
+/* Insight card icon animation on hover */
+.insight-card:hover .insight-icon svg {
+    animation: wobble 0.5s ease-in-out;
+}
+
+@keyframes wobble {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-8deg); }
+    50% { transform: rotate(8deg); }
+    75% { transform: rotate(-4deg); }
+    100% { transform: rotate(0deg); }
 }
 
 /* ============================================
@@ -518,6 +566,12 @@
     font-weight: 700;
     color: white;
     flex-shrink: 0;
+    transition: transform 0.3s var(--ease-spring), box-shadow 0.3s ease;
+}
+
+.activity-item:hover .activity-avatar {
+    transform: scale(1.1) rotate(-5deg);
+    box-shadow: 0 4px 12px rgba(74, 157, 151, 0.3);
 }
 
 .activity-content {
@@ -730,6 +784,34 @@
     color: white;
 }
 
+.health-cta:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.health-cta svg {
+    transition: transform 0.3s var(--ease-out);
+}
+
+.health-cta:hover svg {
+    transform: translateX(2px);
+}
+
+/* Health ring glow animation */
+.health-card:hover .ring-progress {
+    filter: drop-shadow(0 0 8px var(--teal));
+}
+
+/* Score number pulse on load */
+@keyframes scorePopIn {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.health-score-value {
+    animation: scorePopIn 0.6s var(--ease-spring) 0.5s backwards;
+}
+
 /* ============================================
    QUICK STATS
    ============================================ */
@@ -758,6 +840,24 @@
 .stat-item:hover {
     border-color: var(--border);
     transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.stat-item:hover .stat-icon {
+    transform: scale(1.1);
+}
+
+.stat-icon {
+    transition: transform 0.3s var(--ease-spring);
+}
+
+/* Animated number effect */
+.stat-number {
+    transition: transform 0.3s var(--ease-out);
+}
+
+.stat-item:hover .stat-number {
+    transform: scale(1.05);
 }
 
 .stat-icon {
@@ -1001,6 +1101,51 @@
 
 .event-link:hover {
     color: var(--copper);
+}
+
+/* Event card hover animation */
+.upcoming-event {
+    transition: all 0.3s var(--ease-out);
+}
+
+.upcoming-event:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(232, 93, 76, 0.15);
+    border-color: rgba(232, 93, 76, 0.25);
+}
+
+.upcoming-event:hover .event-badge {
+    animation: pulse 1s ease-in-out infinite;
+}
+
+.event-link {
+    position: relative;
+    display: inline-block;
+}
+
+.event-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--copper);
+    transition: width 0.3s var(--ease-out);
+}
+
+.event-link:hover::after {
+    width: 100%;
+}
+
+/* Tool card arrow bounce */
+.tool-card:hover .tool-arrow {
+    animation: arrowBounce 0.5s ease-in-out;
+}
+
+@keyframes arrowBounce {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(4px); }
 }
 
 /* ============================================
