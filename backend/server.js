@@ -78,7 +78,7 @@ initFirebase();
 app.use(cors());
 app.use(express.json());
 // Serves reorganized frontend assets from the frontend/public directory
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
+app.use(express.static(path.join(process.cwd(), 'frontend', 'public')));
 
 // --- API Endpoints ---
 
