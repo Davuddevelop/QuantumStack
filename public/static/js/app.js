@@ -35,7 +35,8 @@ async function initApp() {
         communities: typeof APP_DATA !== 'undefined' ? [...APP_DATA.communities] : [],
         members: typeof APP_DATA !== 'undefined' ? [...APP_DATA.members] : [],
         events: typeof APP_DATA !== 'undefined' ? [...APP_DATA.events] : [],
-        insights: typeof APP_DATA !== 'undefined' ? [...APP_DATA.insights] : []
+        insights: typeof APP_DATA !== 'undefined' ? [...APP_DATA.insights] : [],
+        messages: typeof APP_DATA !== 'undefined' ? [...APP_DATA.messages] : []
     };
 
     // 2. Fetch Active Firebase Community (Cloud Sync)

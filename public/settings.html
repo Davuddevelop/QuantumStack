@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Members — CampusSync</title>
+    <title>Settings — CampusSync</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230D0D12'/><rect x='20' y='20' width='25' height='25' rx='4' fill='%23E85D4C'/><rect x='55' y='20' width='25' height='25' rx='4' fill='%234A9D97'/><rect x='20' y='55' width='25' height='25' rx='4' fill='%23C77E5B'/><rect x='55' y='55' width='25' height='25' rx='4' fill='%237BA38C'/></svg>">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./static/css/style.css">
 </head>
 <body>
     <nav class="navbar" style="padding-left: 240px;">
@@ -32,7 +32,7 @@
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                     Dashboard
                 </a>
-                <a href="members.html" class="nav-link active">
+                <a href="members.html" class="nav-link">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     Members
                 </a>
@@ -52,7 +52,7 @@
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="12" r="3"/><path d="M3 21v-2a4 4 0 0 1 4-4h4"/></svg>
                     Member Connect
                 </a>
-                <a href="settings.html" class="nav-link">
+                <a href="settings.html" class="nav-link active">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                     Settings
                 </a>
@@ -60,38 +60,30 @@
         </aside>
 
         <main class="main-content">
-            <div class="flex-between animate-in" style="margin-bottom: 2rem;">
-                <div>
-                    <h1>Club Members</h1>
-                    <p style="color: var(--text-muted);">Manage and view all members of the AI & Robotics Club.</p>
+            <div class="animate-in">
+                <h1>Settings</h1>
+                <p style="color: var(--text-muted); margin-bottom: 2.5rem;">Manage your club's profile and AI preferences.</p>
+            </div>
+
+            <div class="card animate-in delay-1" style="max-width: 600px;">
+                <div class="input-group">
+                    <label>Club Name</label>
+                    <input type="text" value="AI & Robotics Club">
                 </div>
-                <button class="btn btn-primary">+ Add Member</button>
-            </div>
-
-            <div class="card animate-in delay-1" style="margin-bottom: 2rem; display: flex; gap: 1rem; align-items: center;">
-                <div style="flex: 1;">
-                    <input type="text" placeholder="Search members by name or interest...">
+                <div class="input-group">
+                    <label>University</label>
+                    <input type="text" value="ADA University">
                 </div>
-                <select>
-                    <option>All Statuses</option>
-                    <option>Active</option>
-                    <option>At-Risk</option>
-                    <option>Inactive</option>
-                </select>
-            </div>
-
-            <div id="statsBar" class="grid animate-in delay-2" style="grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem;">
-                <!-- Injected by JS -->
-            </div>
-
-            <div id="memberGrid" class="grid" style="grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
-                <!-- Injected by JS -->
+                <div class="flex-between" style="margin-top: 2rem;">
+                    <button class="btn btn-outline">Discard Changes</button>
+                    <button class="btn btn-primary">Save Settings</button>
+                </div>
             </div>
         </main>
     </div>
 
-    <script src="./data.js"></script>
-    <script src="./app.js"></script>
+    <script src="./static/js/data.js"></script>
+    <script src="./static/js/app.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             window.addEventListener('appReady', () => {
@@ -100,7 +92,6 @@
                 
                 if (firebaseCommunityId && comm && comm.id === firebaseCommunityId) {
                     const switcher = document.getElementById('clubSwitcher');
-                    // Add community to switcher if not there
                     if (![...switcher.options].some(opt => opt.value === comm.id)) {
                         const newOption = document.createElement('option');
                         newOption.value = comm.id;
@@ -110,80 +101,15 @@
                     } else {
                         switcher.value = comm.id;
                     }
+
+                    // Populate settings fields
+                    const clubNameInput = document.querySelector('input[value="AI & Robotics Club"]');
+                    const universityInput = document.querySelector('input[value="ADA University"]');
+                    if (clubNameInput) clubNameInput.value = comm.name;
+                    if (universityInput) universityInput.value = comm.location;
                 }
-                renderMembers();
             });
-
-            if (window.state && window.state.currentCommunity) {
-                renderMembers();
-            }
         });
-
-        function renderMembers() {
-            const grid = document.getElementById('memberGrid');
-            const stats = document.getElementById('statsBar');
-
-            const members = window.state.members;
-
-            // Render Stats
-            const counts = {
-                total: members.length,
-                active: members.filter(m => m.status === 'active').length,
-                atRisk: members.filter(m => m.status === 'at-risk').length,
-                inactive: members.filter(m => m.status === 'inactive').length
-            };
-
-            stats.innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-label">Total</div>
-                    <div class="stat-value">${counts.total}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Active</div>
-                    <div class="stat-value sage">${counts.active}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">At-Risk</div>
-                    <div class="stat-value gold">${counts.atRisk}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Inactive</div>
-                    <div class="stat-value accent">${counts.inactive}</div>
-                </div>
-            `;
-
-            // Render Grid
-            grid.innerHTML = members.map((m, i) => `
-                <div class="card animate-in" style="animation-delay: ${0.3 + i * 0.05}s;">
-                    <div class="flex" style="gap: 1rem; margin-bottom: 1rem;">
-                        <div class="member-avatar ${getAvatarClass(m.status)}">${m.name.charAt(0)}</div>
-                        <div>
-                            <div style="font-weight: 700;">${m.name}</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted);">${m.role} · ${m.year}</div>
-                        </div>
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <span class="badge badge-${m.status}">${m.status}</span>
-                    </div>
-                    <div class="flex" style="flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem;">
-                        ${m.interests.map(i => `<span class="interest-tag">${i}</span>`).join('')}
-                    </div>
-                    <div class="flex-between" style="border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
-                        <span style="font-size: 0.75rem; color: var(--text-muted);">Last active: ${m.daysInactive}d ago</span>
-                        <div class="flex" style="gap: 0.5rem;">
-                            <button class="btn btn-outline" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;">View</button>
-                            <button class="btn btn-primary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;">Message</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function getAvatarClass(status) {
-            if (status === 'at-risk') return 'gold';
-            if (status === 'inactive') return '';
-            return 'teal';
-        }
     </script>
 </body>
 </html>

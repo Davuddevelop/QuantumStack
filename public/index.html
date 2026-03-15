@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusSync — AI-powered community management for university clubs</title>
+    <meta name="description" content="The AI co-manager that keeps your university club healthy. Monitor engagement, plan events, and connect members automatically.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230D0D12'/><rect x='20' y='20' width='25' height='25' rx='4' fill='%23E85D4C'/><rect x='55' y='20' width='25' height='25' rx='4' fill='%234A9D97'/><rect x='20' y='55' width='25' height='25' rx='4' fill='%23C77E5B'/><rect x='55' y='55' width='25' height='25' rx='4' fill='%237BA38C'/></svg>">
+    <link rel="stylesheet" href="./static/css/style.css">
+    <style>
+        /* ========================================
+           CURSOR-STYLE LANDING PAGE
+           ======================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 120px 24px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1200px;
+            height: 800px;
+            background: radial-gradient(ellipse at center, rgba(232, 93, 76, 0.12) 0%, rgba(74, 157, 151, 0.05) 40%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 18px;
+            background: rgba(74, 157, 151, 0.1);
+            border: 1px solid rgba(74, 157, 151, 0.25);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--teal);
+            margin-bottom: 2rem;
+        }
+
+        .hero-badge .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--teal);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title .gradient-text {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--copper) 50%, var(--teal) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            line-height: 1.7;
+            color: var(--text-muted);
+            max-width: 640px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-hero-primary {
+            padding: 16px 36px;
+            font-size: 16px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent) 0%, #d54a3a 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 24px rgba(232, 93, 76, 0.3);
+        }
+
+        .btn-hero-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(232, 93, 76, 0.4);
+        }
+
+        .btn-hero-secondary {
+            padding: 16px 36px;
+            font-size: 16px;
+            font-weight: 600;
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-hero-secondary:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: var(--text-muted);
+            color: var(--text);
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 12px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        .scroll-indicator svg {
+            opacity: 0.5;
+        }
+
+        /* Dashboard Preview */
+        .dashboard-preview {
+            margin-top: 4rem;
+            width: 100%;
+            max-width: 1100px;
+            position: relative;
+        }
+
+        .preview-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+                0 60px 120px -30px rgba(0, 0, 0, 0.6),
+                0 0 100px rgba(232, 93, 76, 0.08);
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .preview-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .preview-dot.red { background: #ff5f57; }
+        .preview-dot.yellow { background: #ffbd2e; }
+        .preview-dot.green { background: #28ca42; }
+
+        .preview-body {
+            padding: 32px;
+            min-height: 400px;
+            display: grid;
+            grid-template-columns: 220px 1fr 260px;
+            gap: 24px;
+        }
+
+        .preview-sidebar {
+            border-right: 1px solid var(--border-subtle);
+            padding-right: 20px;
+        }
+
+        .preview-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            transition: all 0.2s;
+        }
+
+        .preview-nav-item.active {
+            background: rgba(232, 93, 76, 0.12);
+            color: var(--accent);
+        }
+
+        .preview-main h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .preview-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .preview-stat {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .preview-stat-value {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .preview-stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 6px;
+        }
+
+        .preview-panel {
+            border-left: 1px solid var(--border-subtle);
+            padding-left: 20px;
+        }
+
+        .preview-panel-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .preview-insight {
+            background: rgba(232, 93, 76, 0.08);
+            border-left: 3px solid var(--accent);
+            padding: 14px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 14px;
+        }
+
+        .preview-insight-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .preview-insight-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ========================================
+           SCROLL REVEAL SECTIONS
+           ======================================== */
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* Problem Section */
+        .problem-section {
+            padding: 140px 24px;
+            position: relative;
+        }
+
+        .problem-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-eyebrow {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 2rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 80px;
+        }
+
+        .problem-card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 36px;
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            border-color: var(--border);
+            transform: translateY(-4px);
+        }
+
+        .problem-icon {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(232, 93, 76, 0.1);
+            border-radius: 14px;
+            margin-bottom: 24px;
+        }
+
+        .problem-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .problem-card p {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        /* Solution Section */
+        .solution-section {
+            padding: 140px 24px;
+            background: linear-gradient(180deg, transparent 0%, rgba(74, 157, 151, 0.03) 50%, transparent 100%);
+        }
+
+        .solution-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: rgba(74, 157, 151, 0.1);
+            border: 1px solid rgba(74, 157, 151, 0.2);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--teal);
+            margin-bottom: 2rem;
+        }
+
+        /* Feature Showcase */
+        .feature-showcase {
+            padding: 100px 24px 140px;
+        }
+
+        .feature-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto 160px;
+        }
+
+        .feature-block:nth-child(even) {
+            direction: rtl;
+        }
+
+        .feature-block:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .feature-content {
+            padding: 20px 0;
+        }
+
+        .feature-number {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .feature-bullets {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-bullets li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        .feature-bullets li svg {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .feature-screenshot {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow:
+                0 40px 80px -20px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+        }
+
+        .screenshot-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 18px;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .screenshot-header span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .screenshot-content {
+            padding: 24px;
+            min-height: 320px;
+        }
+
+        /* Metrics Section */
+        .metrics-section {
+            padding: 100px 24px;
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .metric-item {
+            padding: 20px;
+        }
+
+        .metric-value {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--text) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* Social Proof */
+        .social-proof {
+            padding: 80px 24px;
+            text-align: center;
+        }
+
+        .proof-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .proof-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .proof-logo {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .proof-logo:hover {
+            opacity: 0.8;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            padding: 160px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1000px;
+            height: 600px;
+            background: radial-gradient(ellipse at center, rgba(232, 93, 76, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .final-cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .final-cta h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+        }
+
+        .final-cta p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+        }
+
+        /* Footer */
+        .landing-footer {
+            padding: 80px 24px 40px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-top: 16px;
+            max-width: 280px;
+        }
+
+        .footer-col h4 {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .footer-col a {
+            display: block;
+            font-size: 14px;
+            color: var(--text-muted);
+            padding: 8px 0;
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+
+        .footer-col a:hover {
+            color: var(--text);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-subtle);
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .hackathon-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, rgba(74, 157, 151, 0.1) 0%, rgba(232, 93, 76, 0.1) 100%);
+            border: 1px solid rgba(74, 157, 151, 0.2);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--teal);
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+
+        @media (max-width: 1024px) {
+            .preview-body {
+                grid-template-columns: 1fr;
+            }
+            .preview-sidebar,
+            .preview-panel {
+                display: none;
+            }
+            .feature-block {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .feature-block:nth-child(even) {
+                direction: ltr;
+            }
+            .problem-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 100px 20px 60px;
+            }
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            .proof-logos {
+                gap: 30px;
+            }
+        }
+
+        /* Initial page load animation */
+        .hero-content > * {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+        .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+        .hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+        .hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+
+        .dashboard-preview {
+            opacity: 0;
+            transform: translateY(40px) scale(0.98);
+            animation: heroFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+        }
+
+        @keyframes heroFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" aria-label="Main Navigation">
+        <div class="container flex-between" style="height: 100%;">
+            <a href="index.html" class="nav-brand">Campus<span>Sync</span></a>
+            <div class="flex" style="gap: 8px;">
+                <a href="dashboard.html" class="btn btn-ghost">Sign In</a>
+                <a href="onboarding.html" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="pulse"></span>
+                    Build with AI Hackathon 2026
+                </div>
+
+                <h1 class="hero-title">
+                    The AI co-manager for<br><span class="gradient-text">university clubs</span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    Stop losing members silently. CampusSync gives you real-time health insights,
+                    AI-powered event planning, and smart member matching — all in one dashboard.
+                </p>
+
+                <div class="hero-cta">
+                    <a href="onboarding.html" class="btn-hero-primary">Start for free</a>
+                    <a href="dashboard.html" class="btn-hero-secondary">View live demo</a>
+                </div>
+            </div>
+
+            <!-- Dashboard Preview -->
+            <div class="dashboard-preview">
+                <div class="preview-container">
+                    <div class="preview-header">
+                        <span class="preview-dot red"></span>
+                        <span class="preview-dot yellow"></span>
+                        <span class="preview-dot green"></span>
+                    </div>
+                    <div class="preview-body">
+                        <div class="preview-sidebar">
+                            <div class="preview-nav-item active">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                                Dashboard
+                            </div>
+                            <div class="preview-nav-item">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                                Members
+                            </div>
+                            <div class="preview-nav-item">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                                Events
+                            </div>
+                            <div class="preview-nav-item">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                                Health
+                            </div>
+                            <div class="preview-nav-item">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><circle cx="17" cy="12" r="3"/><path d="M3 21v-2a4 4 0 0 1 4-4h4"/></svg>
+                                Connect
+                            </div>
+                        </div>
+                        <div class="preview-main">
+                            <h3>GDG Baku Overview</h3>
+                            <div class="preview-stats">
+                                <div class="preview-stat">
+                                    <div class="preview-stat-value" style="color: var(--teal);">847</div>
+                                    <div class="preview-stat-label">Members</div>
+                                </div>
+                                <div class="preview-stat">
+                                    <div class="preview-stat-value" style="color: var(--sage);">81%</div>
+                                    <div class="preview-stat-label">Health Score</div>
+                                </div>
+                                <div class="preview-stat">
+                                    <div class="preview-stat-value" style="color: var(--gold);">12</div>
+                                    <div class="preview-stat-label">Events YTD</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="preview-panel">
+                            <div class="preview-panel-title">AI Insights</div>
+                            <div class="preview-insight">
+                                <div class="preview-insight-title">Engagement Alert</div>
+                                <div class="preview-insight-text">3 core members showing decreased activity. Recommended: personal outreach.</div>
+                            </div>
+                            <div class="preview-insight" style="background: rgba(74, 157, 151, 0.08); border-color: var(--teal);">
+                                <div class="preview-insight-title" style="color: var(--teal);">Trending Up</div>
+                                <div class="preview-insight-text">Event RSVPs up 34% this month. Keep momentum going.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scroll-indicator">
+                <span>Scroll to explore</span>
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section class="problem-section">
+            <div class="section-container">
+                <div class="section-eyebrow reveal">The Problem</div>
+                <h2 class="section-title reveal reveal-delay-1">
+                    Running a university club shouldn't feel like guesswork
+                </h2>
+                <p class="section-subtitle reveal reveal-delay-2">
+                    Club leaders spend hours managing spreadsheets, lose members without warning,
+                    and struggle to keep communities engaged. There's a better way.
+                </p>
+
+                <div class="problem-grid">
+                    <div class="problem-card reveal reveal-delay-1">
+                        <div class="problem-icon">
+                            <svg width="28" height="28" fill="none" stroke="var(--accent)" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        </div>
+                        <h3>Silent Member Churn</h3>
+                        <p>Members disengage gradually and you only notice when they've already left. By then, it's too late to re-engage them.</p>
+                    </div>
+                    <div class="problem-card reveal reveal-delay-2">
+                        <div class="problem-icon">
+                            <svg width="28" height="28" fill="none" stroke="var(--accent)" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><path d="M3 10h18"/></svg>
+                        </div>
+                        <h3>Event Planning Chaos</h3>
+                        <p>Planning events takes weeks of coordination. Finding venues, creating timelines, assigning tasks — it's overwhelming.</p>
+                    </div>
+                    <div class="problem-card reveal reveal-delay-3">
+                        <div class="problem-icon">
+                            <svg width="28" height="28" fill="none" stroke="var(--accent)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <h3>Disconnected Members</h3>
+                        <p>New members join but never form connections. Without introductions, they remain strangers and eventually drift away.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section class="solution-section">
+            <div class="section-container">
+                <div class="solution-tag reveal">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    The Solution
+                </div>
+                <h2 class="section-title reveal reveal-delay-1">
+                    AI that understands your community
+                </h2>
+                <p class="section-subtitle reveal reveal-delay-2">
+                    CampusSync monitors engagement patterns, predicts churn before it happens,
+                    and gives you actionable insights to build a thriving community.
+                </p>
+            </div>
+        </section>
+
+        <!-- Feature Showcase -->
+        <section class="feature-showcase">
+            <!-- Feature 1: Dashboard -->
+            <div class="feature-block">
+                <div class="feature-content reveal">
+                    <div class="feature-number">01</div>
+                    <h3 class="feature-title">Real-time Community Dashboard</h3>
+                    <p class="feature-desc">
+                        Get a bird's eye view of your entire community. See engagement trends,
+                        upcoming events, and AI insights all in one place.
+                    </p>
+                    <ul class="feature-bullets">
+                        <li>
+                            <svg width="18" height="18" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                            Live member count and engagement metrics
+                        </li>
+                        <li>
+                            <svg width="18" height="18" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                            AI-generated insights and recommendations
+                        </li>
+                        <li>
+                            <svg width="18" height="18" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                            Quick actions for common tasks
+                        </li>
+                    </ul>
+                </div>
+                <div class="feature-screenshot reveal reveal-delay-2">
+                    <div class="screenshot-header">
+                        <span style="background: #ff5f57;"></span>
+                        <span style="background: #ffbd2e;"></span>
+                        <span style="background: #28ca42;"></span>
+                    </div>
+                    <div class="screenshot-content" style="background: linear-gradient(135deg, rgba(232, 93, 76, 0.05) 0%, rgba(74, 157, 151, 0.05) 100%);">
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px;">
+                            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px; text-align: center;">
+                                <div style="font-size: 1.75rem; font-weight: 700; color: var(--teal);">847</div>
+                                <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Members</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px; text-align: center;">
+                                <div style="font-size: 1.75rem; font-weight: 700; color: var(--sage);">81%</div>
+                                <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Health</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px; text-align: center;">
+                                <div style="font-size: 1.75rem; font-weight: 700; color: var(--gold);">12</div>
+                                <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Events</div>
+                            </div>
+                        </div>
+                        <div style="background: rgba(232, 93, 76, 0.08); border-left: 3px solid var(--accent); padding: 14px; border-radius: 0 10px 10px 0;">
+                            <div style="font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 4px;">AI Insight</div>
+                            <div style="font-size: 13px; color: var(--text-secondary);">3 members need outreach this week</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2: Health Analysis -->
+            <div class="feature-block">
+                <div class="feature-content reveal">
+                    <div class="feature-number">02</div>
+                    <h3 class="feature-title">Community Health Analysis</h3>
+                    <p class="feature-desc">
+                        Know exactly how healthy your community is. Our AI analyzes engagement patterns
+                        and predicts which members are at risk of leaving.
+                    </p>
+                    <ul class="feature-bullets">
+                        <li>
+                            <svg width="18" height="18" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                            Overall health score with trend analysis
+                        </li>
+                        <li>
+                            <svg width="18" height="18" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                            At-risk member identification
+                        </li>
+                        <li>
+                            <svg width="18" height="18" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                            Actionable recommendations
+                        </li>
+                    </ul>
+                </div>
+                <div class="feature-screenshot reveal reveal-delay-2">
+                    <div class="screenshot-header">
+                        <span style="background: #ff5f57;"></span>
+                        <span style="background: #ffbd2e;"></span>
+                        <span style="background: #28ca42;"></span>
+                    </div>
+                    <div class="screenshot-content">
+                        <div style="display: flex; justify-content: center; margin-bottom: 24px;">
+                            <div style="width: 140px; height: 140px; border-radius: 50%; border: 8px solid var(--sage); display: flex; align-items: center; justify-content: center; position: relative;">
+                                <div style="font-size: 2.5rem; font-weight: 700; color: var(--sage);">81%</div>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <div style="font-size: 13px; color: var(--text-muted);">Community Health Score</div>
+                            <div style="font-size: 14px; color: var(--sage); margin-top: 4px;">Healthy — Trending Up</div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                            <div style="background: rgba(123, 163, 140, 0.1); border-radius: 8px; padding: 10px; text-align: center;">
+                                <div style="font-size: 1.1rem; font-weight: 600; color: var(--sage);">76%</div>
+                                <div style="font-size: 10px; color: var(--text-muted);">Active</div>
+                            </div>
+                            <div style="background: rgba(209, 175, 91, 0.1); border-radius: 8px; padding: 10px; text-align: center;">
+                                <div style="font-size: 1.1rem; font-weight: 600; color: var(--gold);">18%</div>
+                                <div style="font-size: 10px; color: var(--text-muted);">At Risk</div>
+                            </div>
+                            <div style="background: rgba(232, 93, 76, 0.1); border-radius: 8px; padding: 10px; text-align: center;">
+                                <div style="font-size: 1.1rem; font-weight: 600; color: var(--accent);">6%</div>
+                                <div style="font-size: 10px; color: var(--text-muted);">Inactive</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3: Event Planner -->
+            <div class="feature-block">
+                <div class="feature-content reveal">
+                    <div class="feature-number">03</div>
+                    <h3 class="feature-title">AI Event Planner</h3>
+                    <p class="feature-desc">
+                        Turn a simple idea into a complete event plan. Just describe what you want,
+                        and AI generates timelines, tasks, and logistics.
+                    </p>
+                    <ul class="feature-bullets">
+                        <li>
+                            <svg width="18" height="18" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                            Natural language event creation
+                        </li>
+                        <li>
+                            <svg width="18" height="18" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                            Auto-generated task assignments
+                        </li>
+                        <li>
+                            <svg width="18" height="18" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                            Timeline and milestone tracking
+                        </li>
+                    </ul>
+                </div>
+                <div class="feature-screenshot reveal reveal-delay-2">
+                    <div class="screenshot-header">
+                        <span style="background: #ff5f57;"></span>
+                        <span style="background: #ffbd2e;"></span>
+                        <span style="background: #28ca42;"></span>
+                    </div>
+                    <div class="screenshot-content">
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+                            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">Your prompt:</div>
+                            <div style="font-size: 14px; color: var(--text-secondary);">"Plan a hackathon for 100 students next month"</div>
+                        </div>
+                        <div style="border-left: 2px solid var(--teal); padding-left: 16px;">
+                            <div style="margin-bottom: 14px;">
+                                <div style="font-size: 12px; font-weight: 600; color: var(--teal);">Week 1</div>
+                                <div style="font-size: 13px; color: var(--text-muted);">Venue booking, sponsor outreach</div>
+                            </div>
+                            <div style="margin-bottom: 14px;">
+                                <div style="font-size: 12px; font-weight: 600; color: var(--copper);">Week 2</div>
+                                <div style="font-size: 13px; color: var(--text-muted);">Registration opens, mentor recruitment</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 12px; font-weight: 600; color: var(--gold);">Week 3</div>
+                                <div style="font-size: 13px; color: var(--text-muted);">Final logistics, tech setup</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 4: Member Connect -->
+            <div class="feature-block">
+                <div class="feature-content reveal">
+                    <div class="feature-number">04</div>
+                    <h3 class="feature-title">Smart Member Matching</h3>
+                    <p class="feature-desc">
+                        Help members find their tribe. AI matches people based on skills, interests,
+                        and goals to foster meaningful connections.
+                    </p>
+                    <ul class="feature-bullets">
+                        <li>
+                            <svg width="18" height="18" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                            Skill-based matching algorithm
+                        </li>
+                        <li>
+                            <svg width="18" height="18" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                            Interest compatibility scoring
+                        </li>
+                        <li>
+                            <svg width="18" height="18" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                            Automated intro suggestions
+                        </li>
+                    </ul>
+                </div>
+                <div class="feature-screenshot reveal reveal-delay-2">
+                    <div class="screenshot-header">
+                        <span style="background: #ff5f57;"></span>
+                        <span style="background: #ffbd2e;"></span>
+                        <span style="background: #28ca42;"></span>
+                    </div>
+                    <div class="screenshot-content">
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Recommended Match</div>
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--teal);">94%</div>
+                            <div style="font-size: 13px; color: var(--text-secondary);">Compatibility Score</div>
+                        </div>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 24px;">
+                            <div style="text-align: center;">
+                                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, var(--accent), var(--copper)); border-radius: 14px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 600;">A</div>
+                                <div style="font-size: 13px; color: var(--text);">Aysel</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">ML Engineer</div>
+                            </div>
+                            <svg width="24" height="24" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            <div style="text-align: center;">
+                                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, var(--teal), var(--sage)); border-radius: 14px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 600;">N</div>
+                                <div style="font-size: 13px; color: var(--text);">Nicat</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">Data Scientist</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                            <span style="padding: 4px 10px; background: rgba(74, 157, 151, 0.1); border-radius: 100px; font-size: 11px; color: var(--teal);">Python</span>
+                            <span style="padding: 4px 10px; background: rgba(74, 157, 151, 0.1); border-radius: 100px; font-size: 11px; color: var(--teal);">AI/ML</span>
+                            <span style="padding: 4px 10px; background: rgba(74, 157, 151, 0.1); border-radius: 100px; font-size: 11px; color: var(--teal);">Research</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metrics Section -->
+        <section class="metrics-section">
+            <div class="metrics-grid">
+                <div class="metric-item reveal">
+                    <div class="metric-value">847</div>
+                    <div class="metric-label">Members managed</div>
+                </div>
+                <div class="metric-item reveal reveal-delay-1">
+                    <div class="metric-value">1,598</div>
+                    <div class="metric-label">Event attendees</div>
+                </div>
+                <div class="metric-item reveal reveal-delay-2">
+                    <div class="metric-value">81%</div>
+                    <div class="metric-label">Avg health score</div>
+                </div>
+                <div class="metric-item reveal reveal-delay-3">
+                    <div class="metric-value">12</div>
+                    <div class="metric-label">Events planned</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Proof -->
+        <section class="social-proof">
+            <div class="proof-title reveal">Built for communities like</div>
+            <div class="proof-logos reveal reveal-delay-1">
+                <span class="proof-logo">GDG Baku</span>
+                <span class="proof-logo">AI & Robotics Club</span>
+                <span class="proof-logo">DevSociety</span>
+                <span class="proof-logo">StartupAZ</span>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="final-cta">
+            <div class="final-cta-content">
+                <h2 class="reveal">Ready to build a healthier community?</h2>
+                <p class="reveal reveal-delay-1">Join clubs that are using AI to understand and engage their members better.</p>
+                <a href="onboarding.html" class="btn-hero-primary reveal reveal-delay-2">Get started for free</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="landing-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-brand">Campus<span>Sync</span></a>
+                    <p>The AI-powered platform that helps university clubs monitor engagement, plan events, and build stronger communities.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="health.html">Health Analysis</a>
+                    <a href="planner.html">Event Planner</a>
+                    <a href="connect.html">Member Connect</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="#">Documentation</a>
+                    <a href="#">API Reference</a>
+                    <a href="#">Community</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="#">About</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 CampusSync. All rights reserved.</span>
+                <div class="hackathon-badge">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    Built at Build with AI Hackathon, Baku 2026
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./static/js/data.js"></script>
+    <script src="./static/js/app.js"></script>
+    <script>
+        // Scroll Reveal Animation
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all reveal elements
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // Parallax effect for hero gradient
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero::before');
+            if (hero) {
+                hero.style.transform = `translateX(-50%) translateY(${scrolled * 0.3}px)`;
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
