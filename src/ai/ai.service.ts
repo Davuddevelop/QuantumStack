@@ -34,8 +34,9 @@ export const AI_CONFIG = {
 
 class AIService {
   private static readonly API_URL = 'https://api.openai.com/v1/chat/completions';
+  private static readonly MAX_RETRIES = 3;
 
-  public async callOpenAI(systemPrompt: string, userPrompt: string): Promise<AIResponse> {
+  public async callOpenAI(systemPrompt: string, userPrompt: string, retryCount = 0): Promise<AIResponse> {
     if (!config.openai.apiKey) {
       throw new Error('OPENAI_API_KEY is not defined');
     }
@@ -56,7 +57,8 @@ class AIService {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${config.openai.apiKey}`
-          }
+          },
+          timeout: 30000 // 30s timeout
         }
       );
 
@@ -64,10 +66,22 @@ class AIService {
       const cleanJson = text.replace(/```json|```/g, '').trim();
       return JSON.parse(cleanJson);
     } catch (error: any) {
+      if (retryCount < AIService.MAX_RETRIES && this.shouldRetry(error)) {
+        const delay = Math.pow(2, retryCount) * 1000;
+        logger.warn(`AI Service Retry ${retryCount + 1}/${AIService.MAX_RETRIES} after ${delay}ms`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return this.callOpenAI(systemPrompt, userPrompt, retryCount + 1);
+      }
+
       const message = error.response?.data?.error?.message || error.message;
       logger.error('AI Service Error: %s', message);
       throw new Error(`AI Processing Failed: ${message}`);
     }
+  }
+
+  private shouldRetry(error: any): boolean {
+    const status = error.response?.status;
+    return status === 429 || (status >= 500 && status <= 599);
   }
 }
 

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { AIController } from '../controllers/ai.controller';
 import { validate } from '../middleware/validate.middleware';
-import { AIRequestSchema } from '../models/ai.schema';
+import { AIRequestSchema } from '../ai/ai.schema';
 
 const router = Router();
 

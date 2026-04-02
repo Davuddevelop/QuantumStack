@@ -2,10 +2,10 @@
   "name": "campussync",
   "version": "1.0.0",
   "description": "Premium AI-powered platform for university clubs and developer communities.",
-  "main": "backend/dist/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "node backend/dist/index.js",
-    "dev": "nodemon --watch 'backend/src/**/*.ts' --exec 'ts-node' backend/src/index.ts",
+    "start": "node dist/index.js",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "build": "tsc",
     "test": "jest"
   },

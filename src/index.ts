@@ -32,7 +32,7 @@ app.use(morgan('combined', {
 }));
 
 // Static Files
-app.use(express.static(path.join(__dirname, '..', '..', 'public')));
+app.use(express.static(path.join(__dirname, 'frontend', 'public')));
 
 // API Routes
 app.use('/api', routes);
