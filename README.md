@@ -30,6 +30,30 @@ A seamless, real-time experience powered by Firebase Firestore. Switch between m
 
 ---
 
+## 📂 Project Structure
+
+To ensure a clean and scalable codebase, QuantumStack is organized as follows:
+
+| Directory | Description |
+| :--- | :--- |
+| [`backend/src`](file:///c:/Users/User/Jedi/QuantumStack/backend/src) | Core implementation (Express + TypeScript) |
+| [`frontend/public`](file:///c:/Users/User/Jedi/QuantumStack/frontend/public) | Frontend assets and HTML templates |
+| [`tests/`](file:///c:/Users/User/Jedi/QuantumStack/tests/) | Automated test suites |
+| [`public/`](file:///c:/Users/User/Jedi/QuantumStack/public/) | Shared assets and static files |
+
+---
+
+## 📖 Documentation
+
+For detailed information on the project's technical aspects, please refer to the following documents:
+
+- 🏗️ **[Architecture](file:///c:/Users/User/Jedi/QuantumStack/ARCHITECTURE.md)**: Deep dive into the backend, integrations, and data flow.
+- 🗺️ **[Roadmap](file:///c:/Users/User/Jedi/QuantumStack/ROADMAP.md)**: Product vision and upcoming features.
+- 🚀 **[Deployment](file:///c:/Users/User/Jedi/QuantumStack/DEPLOYMENT.md)**: Instructions for deploying to Vercel and Firebase.
+- 🔥 **[Firebase](file:///c:/Users/User/Jedi/QuantumStack/FIREBASE.md)**: Configuration, security rules, and data schema.
+
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -56,13 +80,12 @@ A seamless, real-time experience powered by Firebase Firestore. Switch between m
    ```env
    PORT=3000
    OPENAI_API_KEY=your_openai_api_key_here
+   FIREBASE_PROJECT_ID=your_firebase_project_id
+   FIREBASE_CLIENT_EMAIL=your_firebase_client_email
+   FIREBASE_PRIVATE_KEY="your_firebase_private_key"
    ```
 
-4. **Firebase Setup**:
-   - Download your service account key from the Firebase Console.
-   - Rename it to `firebase-key.json` and place it in the root directory.
-
-5. **Fire up the engine**:
+4. **Fire up the engine**:
    ```bash
    npm start
    ```

@@ -1,4 +1,4 @@
-const { AI_CONFIG } = require('../backend/ai-config');
+const { AI_CONFIG } = require('../backend/src/services/ai.service');
 
 /**
  * AI Configuration Test Suite

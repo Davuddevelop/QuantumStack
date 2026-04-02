@@ -8,7 +8,9 @@
       "Bash(Get-ChildItem:*)",
       "Bash(Select-Object FullName)",
       "WebFetch(domain:cursor.com)",
-      "Bash(ls -la \"c:\\\\Users\\\\User\\\\Jedi\\\\QuantumStack\\\\frontend\\\\public\\\\static\\\\images\"\" 2>/dev/null || dir \"c:UsersUserJediQuantumStackfrontendpublicstaticimages\"\")"
+      "Bash(ls -la \"c:\\\\Users\\\\User\\\\Jedi\\\\QuantumStack\\\\frontend\\\\public\\\\static\\\\images\"\" 2>/dev/null || dir \"c:UsersUserJediQuantumStackfrontendpublicstaticimages\"\")",
+      "Bash(if not exist \"c:\\\\Users\\\\User\\\\Jedi\\\\QuantumStack\\\\.claude\\\\commands\" mkdir \"c:\\\\Users\\\\User\\\\Jedi\\\\QuantumStack\\\\.claude\\\\commands\")",
+      "Bash(test:*)"
     ]
   }
 }
