@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { CommunityController } from '../controllers/community.controller';
+import { CommunityController } from '../api_controllers/community.controller';
 import { validate } from '../middleware/validate.middleware';
 import { CommunityRequestSchema } from '../models/ai.schema';
 

@@ -1,4 +1,4 @@
-const { AI_CONFIG } = require('../src/ai/ai.service');
+const { AI_CONFIG } = require('../src/openai/ai.service');
 
 /**
  * AI Configuration Test Suite

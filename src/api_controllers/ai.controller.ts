@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { aiService, AI_CONFIG } from '../ai/ai.service';
+import { aiService, AI_CONFIG } from '../openai/ai.service';
 import { communityService } from '../services/community.service';
 import logger from '../utils/logger';
 
